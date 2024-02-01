@@ -24,3 +24,15 @@ header nav{
     /* border: solid 1px red; */
 }
 
+
+.twitter-icon svg {
+    fill: #1DA1F2; /* Color de Twitter */
+}
+
+.instagram-icon svg {
+    fill: #C13584; /* Color de Instagram */
+}
+
+.facebook-icon svg {
+    fill: #1877F2; /* Color de Facebook */
+}
