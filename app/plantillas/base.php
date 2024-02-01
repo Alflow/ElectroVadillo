@@ -14,38 +14,42 @@
 </head>
 
 <body>
-<header class="p-3 bg-primary">
-  <div class="container d-flex flex-wrap align-items-center">
-    <div class="d-flex align-items-center">
-      <img src="web/imagenes/logo.png" alt="" style="max-width: 50px;">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-2">  
-      </a>
-    </div>
+  <header class="p-3 bg-primary">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between">
 
-    <ul class="nav me-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="#" class="nav-link px-2 text-white">Inicio</a></li>
-      <li><a href="#" class="nav-link px-2 text-white">Productos</a></li>
-      <li><a href="#" class="nav-link px-2 text-white">Categorías</a></li>
-      <li><a href="#" class="nav-link px-2 text-white">Preguntas y respuestas</a></li>
-      <li><a href="#" class="nav-link px-2 text-white">Quienes Somos</a></li>
-    </ul>
+      <!-- Título a la izquierda -->
+      <div class="d-flex align-items-center">
+        <h1 class="fs-3">ELECTRO <br> VADILLO</h1>
+      </div>
 
-    <div class=" d-flex text-end">
-      <form class="me-2" role="search">
-        <input type="search" class="form-control form-control-dark bg-primary text-white" placeholder="Buscar..." aria-label="Search">
-      </form>
-      <button type="button col-3" class="btn btn-outline-light me-2">Login</button>
-      <button type="button col-3" class="btn btn-warning">Regístrate</button>
+      <!-- Navegación en el medio -->
+      <ul class="nav mx-auto mb-2 mb-lg-0 ms-4">
+        <li><a href="#" class="nav-link px-2 text-white">Inicio</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Productos</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Categorías</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Preguntas y respuestas</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Quienes Somos</a></li>
+      </ul>
+
+      <!-- Formulario de búsqueda y botones a la derecha -->
+      <div class="d-flex">
+        <form class="me-2" role="search">
+          <input type="search" class="form-control form-control-dark bg-primary text-white" placeholder="Buscar..." aria-label="Search">
+        </form>
+        <button type="button" class="btn btn-outline-light me-2">Login</button>
+        <button type="button" class="btn btn-warning">Regístrate</button>
+      </div>
+
     </div>
-  </div>
-</header>
+  </header>
+  
+
 
 
 
 
 
   <div class="container mt-4" id="contenido">
-
     <?= $contenido ?>
   </div>
 
