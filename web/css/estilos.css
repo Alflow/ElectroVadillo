@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+  --color-azul: #40A2E3;
+  --color-crema: #FFF6E9;
+  --color-celeste: #BBE2EC;
+  --color-verde: #0D9276;
+}
+
+.nav-link:hover{
+   color: #FFF6E9 !important;
+   text-decoration: underline;
+   text-decoration-line: underline  ;
+}
+header nav{
+    background-color: var(--color-azul);
+    color: var(--color-crema);
+}
+.navbar-nav{
+    width: 80%;
+    /* border: solid 1px red; */
+}
+
