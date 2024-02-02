@@ -1,9 +1,9 @@
 <?php
 
- ?>
+?>
 <?php ob_start() ?>
 
-<div class="row row-cols-3 row-cols-md-6 g-4">
+<div class="row row-cols-2 row-cols-md-6 g-4">
   <div class="col">
     <div class="card">
       <img src="web/imagenes/1-Cables.png" class="card-img-top" alt="asdsd">
@@ -78,6 +78,6 @@
   </div>
 </div>
 
- <?php $contenido = ob_get_clean() ?>
+<?php $contenido = ob_get_clean() ?>
 
- <?php include 'base.php' ?>
+<?php include 'base.php' ?>
