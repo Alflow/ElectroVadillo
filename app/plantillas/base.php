@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
   <header class="p-3 bg-primary">
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
 
@@ -24,7 +25,7 @@
 
       <!-- Navegación en el medio -->
       <ul class="nav mx-auto mb-2 mb-lg-0 ms-4">
-        <li><a href="#" class="nav-link px-2 text-white">Inicio</a></li>
+        <li><a href="index.php?ctl=inicio" class="nav-link px-2 text-white">Inicio</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Productos</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Categorías</a></li>
         <li><a href="#" class="nav-link px-2 text-white">Preguntas y respuestas</a></li>
@@ -42,7 +43,7 @@
 
     </div>
   </header>
-  
+
 
 
 

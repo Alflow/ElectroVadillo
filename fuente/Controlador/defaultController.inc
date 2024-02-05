@@ -6,8 +6,7 @@ class DefaultController
   public function inicio()
   {
     try {
-      $arrayCategorias = ((new GestionBDRepositorio)->getCategorias());
-      var_dump($arrayCategorias);
+      $arrayCategorias = ((new GestionBDRepositorio)->getCategories());
     } catch (PDOException $ex) {
       echo ($ex->getMessage());
     }
