@@ -36,8 +36,8 @@ class GestionBDRepositorio
 
     public function getProductsByCategory(int $category): array
     {
-        $sql = 'SELECT articulo.codigo, articulo.descripcion, articulo.pv, articulo.stock, articulo.idCategoria, categoria.imagen FROM articulo JOIN categoria ON (articulo.idCategoria = categoria.id)
-        WHERE articulo.idCategoria = :categoria';
+        $sql = 'SELECT codigo, descripcion, pv, stock, idCategoria FROM articulo
+        WHERE idCategoria = :categoria';
 
         try {
             $con = ((new ConexionBd))->getConexion();
