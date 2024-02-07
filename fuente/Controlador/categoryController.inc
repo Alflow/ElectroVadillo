@@ -12,9 +12,13 @@ class categoryController
             // pendiente verificación de integridad de los datos. Se debe comprobar que el producto existe en la tabla de productos.
             // Si el código es correcto, hacer el push, en caso contrario mostrar un error
             $_SESSION['basket'][] = [sanea($_GET['order'])];
+
+            header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
         }
 
-        var_dump($_SESSION['basket']);
+        if (isset($_SESSION['basket'])) {
+            var_dump($_SESSION['basket']);
+        }
         if (isset($_GET['cat'])) {
             try {
 
