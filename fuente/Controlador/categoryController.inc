@@ -11,9 +11,16 @@ class categoryController
         if (isset($_GET['order'])) {
             // pendiente verificación de integridad de los datos. Se debe comprobar que el producto existe en la tabla de productos.
             // Si el código es correcto, hacer el push, en caso contrario mostrar un error
-            $_SESSION['basket'][] = [sanea($_GET['order'])];
 
-            header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+            //CREAMOS TABLA AQUI TABLA CON CODIGO, PRECIO Y UNIDADES (COMPROBAR LA CANTIDAD DE UNIDADES EN BASE)
+
+            if (((new GestionBDRepositorio))->checkProductExists($_GET['order'])) {
+                $_SESSION['basket'][sanea($_GET['order'])] = [sanea($_GET['order'])];
+            } else {
+                echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
+            }
+
+            // header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
         }
 
         if (isset($_SESSION['basket'])) {

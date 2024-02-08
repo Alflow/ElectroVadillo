@@ -65,4 +65,35 @@ class GestionBDRepositorio
 
         return $products;
     }
+
+
+    public function checkProductExists(string $codeProduct)
+    {
+        $sql = 'SELECT 1 from articulo WHERE codigo = :codeProduct';
+
+        try {
+            $con = ((new ConexionBd))->getConexion();
+            $snt = $con->prepare($sql);
+            $snt->bindParam(':codeProduct', $codeProduct, PDO::PARAM_STR);
+            $snt->execute();
+
+
+            $product = $snt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $ex) {
+            throw new PDOException($ex->getMessage());
+        } finally {
+            if (isset($snt)) {
+                unset($snt);
+            }
+            if (isset($con)) {
+                $con = null;
+            }
+        }
+
+        if (empty($product)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
