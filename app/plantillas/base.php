@@ -38,8 +38,11 @@
         <form class="me-2" role="search">
           <input type="search" class="form-control form-control-dark bg-primary text-white" placeholder="Buscar..." aria-label="Search">
         </form>
-        <button type="button" class="btn btn-outline-light me-2">Login</button>
+       <button type="button" class="btn  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            LOGIN
+          </button>
         <button type="button" class="btn btn-warning">Regístrate</button>
+
 
         <a href="" class="col-4 mt-1 ms-4 px-2">
           <span class="material-symbols-outlined text-white fs-2">
@@ -51,6 +54,31 @@
 
     </div>
   </header>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form method="post" action="index.php?ctl=checkLoginForm">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" name="credentials[userName]" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">No compartiremos tus datos con nadie</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="credentials[password]">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Recuérdame</label>
+            </div>
+            <a class="nav-link active text-end" aria-current="page" href="#">¿No registrado? Regístrate aquí.</a>
+            <input type="submit" class="btn btn-primary" name="okLogin" value="ACCEDER" >
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 

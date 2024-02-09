@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/fuente/Controlador/defaultController.inc'; /*controladores */
 require_once __DIR__ . '/fuente/Controlador/categoryController.inc'; /*controladores */
+require_once __DIR__ . '/fuente/Controlador/LoginController.inc'; /*controladores */
 require_once __DIR__ . '/app/conf/rutas.inc'; /*Ubicación del archivo de rutas*/
 
 

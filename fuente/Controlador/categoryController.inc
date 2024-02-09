@@ -8,6 +8,7 @@ class categoryController
 
     public function showCategory()
     {
+        $_SESSION['control'] = 'category';
         if (isset($_GET['order'])) {
             // pendiente verificación de integridad de los datos. Se debe comprobar que el producto existe en la tabla de productos.
             // Si el código es correcto, hacer el push, en caso contrario mostrar un error

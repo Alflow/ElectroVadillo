@@ -33,6 +33,19 @@ class GestionBDRepositorio
             }
         }
     }
+    public function getPwd()
+    {
+        die(password_hash('Abc123??', PASSWORD_DEFAULT));
+        $con = (new ConexionBd())->getConexion();
+        $snt = $con->prepare('SELECT pwd FROM cliente WHERE id = 1');
+        $snt->execute();
+        $pwd = $snt->fetch(PDO::FETCH_ASSOC)['pwd'];
+        if (password_verify('Abc123??', $pwd)) {
+            die('SI ES');
+        } else {
+            die('no ES');
+        }
+    }
 
     public function getProductsByCategory(int $category): array
     {

@@ -5,7 +5,16 @@ class DefaultController
 {
   public function inicio()
   {
+    $_SESSION['control']='inicio';
+
+
+    if (isset($_POST['ok'])) {
+      var_dump('PULSADO OK DE LOGIN');
+    }
+
+
     try {
+      // (new GestionBDRepositorio)->getPwd();
       $arrayCategorias = ((new GestionBDRepositorio)->getCategories());
     } catch (PDOException $ex) {
       echo ($ex->getMessage());
