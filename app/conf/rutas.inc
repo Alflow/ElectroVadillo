@@ -7,7 +7,7 @@ $mapeoRutas =
     array('controller' => 'defaultController', 'action' => 'inicio'),
     'showCategory' =>
     array('controller' => 'categoryController', 'action' => 'showCategory'),
-    'checkLoginForm' =>
+    'login' =>
     array('controller' => 'LoginController', 'action' => 'checkLoginForm'),
   );
 

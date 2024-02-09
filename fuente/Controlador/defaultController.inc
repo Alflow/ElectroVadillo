@@ -8,10 +8,7 @@ class DefaultController
     $_SESSION['control']='inicio';
 
 
-    if (isset($_POST['ok'])) {
-      var_dump('PULSADO OK DE LOGIN');
-    }
-
+  
 
     try {
       // (new GestionBDRepositorio)->getPwd();

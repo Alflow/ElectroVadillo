@@ -33,17 +33,29 @@ class GestionBDRepositorio
             }
         }
     }
-    public function getPwd()
+
+
+
+    public function getClienteByECorreo($eCorreo)
     {
-        die(password_hash('Abc123??', PASSWORD_DEFAULT));
-        $con = (new ConexionBd())->getConexion();
-        $snt = $con->prepare('SELECT pwd FROM cliente WHERE id = 1');
-        $snt->execute();
-        $pwd = $snt->fetch(PDO::FETCH_ASSOC)['pwd'];
-        if (password_verify('Abc123??', $pwd)) {
-            die('SI ES');
-        } else {
-            die('no ES');
+
+
+        $sql = 'SELECT id, eCorreo, pwd FROM cliente WHERE eCorreo = :eCorreo';
+
+
+        try {
+            $con = (new ConexionBd())->getConexion();
+            $snt = $con->prepare($sql);
+            $snt->bindParam(':eCorreo', $eCorreo);
+            $snt->execute();
+            $fila = $snt->fetch(PDO::FETCH_ASSOC);
+            if ($fila === false) {
+                throw new Exception('No hay socios con ese eCorreo', 100);
+            } else {
+                return $fila;
+            }
+        } catch (\PDOException $ex) {
+            throw $ex;
         }
     }
 
