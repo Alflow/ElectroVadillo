@@ -11,7 +11,7 @@
 
     <div class="col">
       <a href="index.php?ctl=showCategory&cat=<?= $categoria  ?>" class="text-decoration-none">
-        <div class="card">
+        <div class="card glass">
           <img src="web/imagenes/<?= $detalles['imagen'] ?>" class="card-img-top" alt="asdsd">
           <div class="card-body">
             <h5 class="card-title"><?= $detalles['nombre']  ?></h5>

@@ -39,8 +39,7 @@ class GestionBDRepositorio
     public function getClienteByECorreo($eCorreo)
     {
 
-
-        $sql = 'SELECT id, eCorreo, pwd FROM cliente WHERE eCorreo = :eCorreo';
+        $sql = 'SELECT id, direccion, cP, idPueblo eCorreo, pwd FROM cliente WHERE eCorreo = :eCorreo';
 
 
         try {
@@ -85,9 +84,6 @@ class GestionBDRepositorio
             }
         }
 
-
-
-
         return $products;
     }
 
@@ -101,8 +97,6 @@ class GestionBDRepositorio
             $snt = $con->prepare($sql);
             $snt->bindParam(':codeProduct', $codeProduct, PDO::PARAM_STR);
             $snt->execute();
-
-
             $product = $snt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
@@ -121,4 +115,6 @@ class GestionBDRepositorio
             return true;
         }
     }
+
+
 }

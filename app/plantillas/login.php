@@ -20,6 +20,13 @@
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
         </div>
         <input type="submit" class="btn btn-primary" name="ok" value="Acceder">
+        <?php
+        if(isset($errors)){
+            foreach($errors as $error=>$errorMessage){
+                echo('<p>'.$errorMessage. '  </p>');
+            }
+        }
+        ?>
     </form>
 </div>
 <?php $contenido = ob_get_clean() ?>

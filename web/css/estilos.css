@@ -1,38 +1,53 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 :root {
-  --color-azul: #40A2E3;
-  --color-crema: #FFF6E9;
-  --color-celeste: #BBE2EC;
-  --color-verde: #0D9276;
+  --color-azul: #40a2e3;
+  --color-crema: #fff6e9;
+  --color-celeste: #bbe2ec;
+  --color-verde: #0d9276;
 }
 
-.nav-link:hover{
-   color: #FFF6E9 !important;
-   text-decoration: underline;
-   text-decoration-line: underline  ;
-}
-header nav{
-    background-color: var(--color-azul);
-    color: var(--color-crema);
-}
-.navbar-nav{
-    width: 80%;
-    /* border: solid 1px red; */
+body {
+  background-color: black !important;
+  color: #fff !important;
+  perspective: 500px;
+  font-family: 'Roboto', sans-serif !important;
 }
 
+.glass{
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.77) !important;
+  color: rgb(148, 27, 27) !important;
+}
+
+.nav-link:hover {
+  color: #fff6e9 !important;
+  text-decoration: underline!important;
+  text-decoration-line: underline!important;
+}
+header nav {
+  background-color: var(--color-azul);
+  color: var(--color-crema);
+}
+.navbar-nav {
+  width: 80%;
+  /* border: solid 1px red; */
+}
 
 .twitter-icon svg {
-    fill: #1DA1F2; /* Color de Twitter */
+  fill: #1da1f2; /* Color de Twitter */
 }
 
 .instagram-icon svg {
-    fill: #C13584; /* Color de Instagram */
+  fill: #c13584; /* Color de Instagram */
 }
 
 .facebook-icon svg {
-    fill: #1877F2; /* Color de Facebook */
+  fill: #1877f2; /* Color de Facebook */
 }

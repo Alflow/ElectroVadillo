@@ -34,12 +34,25 @@
       <!-- Formulario de búsqueda y botones a la derecha -->
       <div class="d-flex">
 
-        <a href="index.php?ctl=login">
+        <?php if (isset($_SESSION['socio'])) :?>
+          <a href="index.php?ctl=logOut">
+          <button type="button" class="btn btn-danger  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            SALIR
+          </button>
+        </a>
+        <?php else : ?>
+          <a href="index.php?ctl=login">
           <button type="button" class="btn btn-light  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
             LOGIN
           </button>
         </a>
 
+          
+        <?php endif ;?>
+        
+        
+
+        
         <!-- <button type="button" class="btn btn-warning">Regístrate</button> -->
 
 
@@ -62,6 +75,8 @@
 
 
   <div class="container mt-4" id="contenido">
+    <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
+
     <?= $contenido ?>
   </div>
 
