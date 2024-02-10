@@ -23,7 +23,7 @@ body {
   backdrop-filter: blur(5px) !important;
   -webkit-backdrop-filter: blur(5px) !important;
   border: 1px solid rgba(255, 255, 255, 0.77) !important;
-  color: rgb(148, 27, 27) !important;
+  color: rgb(251, 249, 249) !important;
 }
 
 .nav-link:hover {
