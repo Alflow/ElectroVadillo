@@ -2,6 +2,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">></li>
         <li class="breadcrumb-item active" aria-current="page">Cables</li>
     </ol>
 </nav>
@@ -12,11 +13,11 @@
 
     ?>
 </p>
-<div class="row row-cols-2 row-cols-md-2 g-4">
+<div class="row row-cols-2 row-cols-md-2 g-2">
     <?php foreach ($categoryProductsFinal as $code => $details) : ?>
         <div class="col">
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
+            <div class="card glass mb-2" style="max-width: 540px;">
+                <div class="row g-0 pb-0">
                     <div class="col-md-4">
                         <img src="web/imagenes/<?= $code . '.png' ?>" class="img-fluid rounded-start" alt="...">
                     </div>
@@ -29,7 +30,7 @@
                                 <p class="card-text"><small class="text-danger"> ¡Quedan pocas unidades!</small></p>
                             <?php endif; ?>
                             <a href="index.php?ctl=showCategory&cat=<?= $details['idCategoria'] . '&order=' . $code    ?>">
-                                <button type="button" class="btn btn-primary btn-sm mb-3 text-end">Añadir a la cesta</button>
+                                <button type="button" class="btn btn-primary btn-sm text-end">Añadir a la cesta</button>
                             </a>
 
                         </div>

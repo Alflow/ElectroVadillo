@@ -1,3 +1,14 @@
+/* for testing */
+
+
+.solidrojo{
+  border: solid 1px red !important;
+}
+
+
+
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,11 +22,22 @@
 }
 
 body {
-  background-color: black !important;
-  color: #fff !important;
-  perspective: 500px;
-  font-family: 'Roboto', sans-serif !important;
+  color: white !important;
+  background-color: #000000 !important;
+background-image: url("https://www.transparenttextures.com/patterns/broken-noise.png") !important;
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
+
+
+.breadcrumb-item a, .breadcrumb-item  {
+color: white !important;
+text-decoration: none !important;
+}
+.breadcrumb-item a:hover{
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.88) !important;
+  color: white !important;
+}
+
 
 .glass{
   background: rgba(255, 255, 255, 0.2) !important;
@@ -27,9 +49,13 @@ body {
 }
 
 .nav-link:hover {
-  color: #fff6e9 !important;
+  color: #000000 !important;
   text-decoration: underline!important;
-  text-decoration-line: underline!important;
+  text-decoration: none !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.305) !important;
+  transition: .2s ease-in-out;
+  font-weight: bolder;
+  
 }
 header nav {
   background-color: var(--color-azul);
@@ -50,4 +76,18 @@ header nav {
 
 .facebook-icon svg {
   fill: #1877f2; /* Color de Facebook */
+}
+
+/* COLORES BG */
+header{
+  background-color: #F4CE14 !important;
+  background-image: url("https://www.transparenttextures.com/patterns/egg-shell.png") !important;
+  color: rgb(0, 0, 0);
+}
+header div{
+  color: black;
+}
+
+a:hover{
+  color: red !important;
 }

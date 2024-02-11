@@ -16,7 +16,7 @@
 
 <body>
 
-  <header class="p-3 bg-primary">
+  <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
 
       <!-- Título a la izquierda -->
@@ -26,40 +26,48 @@
 
       <!-- Navegación en el medio -->
       <ul class="nav mx-auto mb-2 mb-lg-0 ms-4">
-        <li><a href="index.php?ctl=inicio" class="nav-link px-2 text-white">Inicio</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Preguntas y respuestas</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Quienes Somos</a></li>
+        <li><a href="index.php?ctl=inicio" class="nav-link px-2 text-black fs-3">Inicio</a></li>
+        <li><a href="#" class="nav-link px-2 text-black fs-3">Preguntas y respuestas</a></li>
+        <li><a href="#" class="nav-link px-2 text-black fs-3">Quienes Somos</a></li>
       </ul>
 
       <!-- Formulario de búsqueda y botones a la derecha -->
       <div class="d-flex">
 
-        <?php if (isset($_SESSION['socio'])) :?>
+        <?php if (isset($_SESSION['socio'])) : ?>
           <a href="index.php?ctl=logOut">
-          <button type="button" class="btn btn-danger  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            SALIR
-          </button>
-        </a>
+            <button type="button" class="btn btn-danger  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              SALIR
+            </button>
+          </a>
         <?php else : ?>
           <a href="index.php?ctl=login">
-          <button type="button" class="btn btn-light  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            LOGIN
-          </button>
-        </a>
+            <button type="button" class="btn btn-light  mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              LOGIN
+            </button>
+          </a>
 
-          
-        <?php endif ;?>
-        
-        
 
-        
+        <?php endif; ?>
+
+
+
+
         <!-- <button type="button" class="btn btn-warning">Regístrate</button> -->
 
 
         <a href="" class="col-4 mt-1 ms-4 px-2">
-          <span class="material-symbols-outlined text-white fs-2">
+          <span class="material-symbols-outlined text-black fs-2">
             shopping_cart
           </span>
+          <?php
+            if(isset($_SESSION['productsInBasket'])){
+              // echo '<pre>';
+              echo('<span>'.$_SESSION['productsInBasket'].'</span>');
+              // echo '</pre>';
+          }
+
+          ?>
         </a>
 
       </div>

@@ -8,24 +8,47 @@ class categoryController
 
     public function showCategory()
     {
-        $_SESSION['control'] = 'category';
+        if(!isset($_SESSION['productsInBasket'])){
+            $_SESSION['productsInBasket']=0;
+        }
+
+
         if (isset($_GET['order'])) {
-            // pendiente verificación de integridad de los datos. Se debe comprobar que el producto existe en la tabla de productos.
-            // Si el código es correcto, hacer el push, en caso contrario mostrar un error
 
-            //CREAMOS TABLA AQUI TABLA CON CODIGO, PRECIO Y UNIDADES (COMPROBAR LA CANTIDAD DE UNIDADES EN BASE)
+            $productId = sanea($_GET['order']);
 
-            if (((new GestionBDRepositorio))->checkProductExists($_GET['order'])) {
-                $_SESSION['basket'][sanea($_GET['order'])] = [sanea($_GET['order'])];
+
+            if (isset($_SESSION['basket'][$productId])) {
+                // Producto ya existe, incrementar la cantidad
+                $_SESSION['basket'][$productId]['cantidad']++;
+
+                if(isset($_SESSION['productsInBasket'])){
+                    $_SESSION['productsInBasket']++;
+                }
             } else {
-                echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
+                // Producto no existe en el carrito, añadir con cantidad inicial de 1
+                if (((new GestionBDRepositorio))->checkProductExists($productId)) {
+                    $_SESSION['basket'][$productId] = [
+                        'cantidad' => 1
+                    ];
+
+                    if(isset($_SESSION['productsInBasket'])){
+                        $_SESSION['productsInBasket']++;
+                    }
+                } else {
+                    echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
+                }
             }
 
-            // header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+
+            header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
         }
 
         if (isset($_SESSION['basket'])) {
+            echo '<pre>';
             var_dump($_SESSION['basket']);
+
+            echo '</pre>';
         }
         if (isset($_GET['cat'])) {
             try {
