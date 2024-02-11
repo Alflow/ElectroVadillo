@@ -91,3 +91,12 @@ header div{
 a:hover{
   color: red !important;
 }
+
+.productsInBasket{
+border-radius: 25%;
+background-color: #000000;
+color: white !important;
+padding: 0.1rem !important;
+margin-left: -10px;
+margin-top: -20px;
+}
