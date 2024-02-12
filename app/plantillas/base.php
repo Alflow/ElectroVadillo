@@ -65,7 +65,8 @@
           <?php
           if (isset($_SESSION['productsInBasket'])) {
             // echo '<pre>';
-            echo ('<span class="position-absolute productsInBasket">' . $_SESSION['productsInBasket'] . '</span>');
+            
+            echo ('<span class="col-2 position-absolute productsInBasket">' . $_SESSION['productsInBasket'] . '</span>');
             // echo '</pre>';
           }
 

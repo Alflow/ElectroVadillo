@@ -44,12 +44,12 @@ class categoryController
             header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
         }
 
-        if (isset($_SESSION['basket'])) {
-            echo '<pre>';
-            var_dump($_SESSION['basket']);
+        // if (isset($_SESSION['basket'])) {
+        //     echo '<pre>';
+        //     var_dump($_SESSION['basket']);
 
-            echo '</pre>';
-        }
+        //     echo '</pre>';
+        // }
         if (isset($_GET['cat'])) {
             try {
 

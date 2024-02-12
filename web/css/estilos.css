@@ -21,6 +21,10 @@
   --color-verde: #0d9276;
 }
 
+#contenido{
+  z-index: 1;
+}
+
 body {
   color: white !important;
   background-color: #000000 !important;
@@ -37,6 +41,8 @@ text-decoration: none !important;
   text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.88) !important;
   color: white !important;
 }
+
+
 
 
 .glass{
@@ -94,8 +100,8 @@ a:hover{
 
 .productsInBasket{
 border-radius: 25%;
-background-color: #000000;
-color: white !important;
+/* background-color: #000000; */
+color: rgb(0, 0, 0) !important;
 padding: 0.1rem !important;
 margin-left: -10px;
 margin-top: -20px;
