@@ -117,4 +117,31 @@ class GestionBDRepositorio
     }
 
 
+    public function insertIntoBasket(array $productToBasket)
+    {
+        $sql = 'INSERT INTO dbo.carrito (idCliente, codArticulo, cantidad, pv) VALUES (:idCli, :codArt, :qtity, :price)';
+
+        try {
+
+            $con = ((new ConexionBd))->getConexion();
+            $con->beginTransaction();
+            $snt = $con->prepare($sql);
+            $snt->bindParam(':idCli', $productToBasket['clientId']);
+            $snt->bindParam(':codArt', $productToBasket['productId']);
+            $snt->bindParam(':qtity', $productToBasket['quantity']);
+            $snt->bindParam(':price', $productToBasket['productPrice']);
+            
+            
+            if(!$snt->execute()){
+                $con->rollBack();
+            throw new Exception('No ha sido posible la transacción');
+            }
+            $con->commit();
+            
+        } catch (PDOException $ex) {
+            $con->rollBack();
+            throw $ex;
+            
+        }
+    }
 }

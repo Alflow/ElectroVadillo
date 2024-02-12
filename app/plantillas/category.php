@@ -19,7 +19,7 @@
             <div class="card glass mb-2" style="max-width: 540px;">
                 <div class="row g-0 pb-0">
                     <div class="col-md-4">
-                        <img src="web/imagenes/<?= $code . '.png' ?>" class="img-fluid rounded-start" alt="...">
+                        <img src="web/imagenes/<?= $code . '.png' ?>" class="img-fluid" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

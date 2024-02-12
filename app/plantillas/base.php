@@ -19,11 +19,13 @@
 <body>
 
   <header class="p-3">
-    <div class="container d-flex flex-wrap align-items-center justify-content-between">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
       <!-- Título a la izquierda -->
-      <div class="d-flex align-items-center">
-        <h1 class="fs-3">ELECTRO <br> VADILLO</h1>
+      <div class="align-items-center col-xl-1">
+        <a href="index.php">
+        <img class="img-fluid" src="web/imagenes/logos/logoElectroVadillo.png" alt="logotipo de Electro Vadillo">
+        </a>
       </div>
 
       <!-- Navegación en el medio -->
@@ -48,7 +50,7 @@
               LOGIN
             </button>
           </a>
-          
+
 
         <?php endif; ?>
 
@@ -65,7 +67,7 @@
           <?php
           if (isset($_SESSION['productsInBasket'])) {
             // echo '<pre>';
-            
+
             echo ('<span class="col-2 position-absolute productsInBasket">' . $_SESSION['productsInBasket'] . '</span>');
             // echo '</pre>';
           }
@@ -85,7 +87,10 @@
 
 
 
+
+
   <div class="container mt-4" id="contenido">
+    <h1 class="fs-3">ELECTRO VADILLO</h1>
     <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
     <?= $contenido ?>
   </div>
