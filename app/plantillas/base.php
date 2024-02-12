@@ -24,7 +24,7 @@
       <!-- Título a la izquierda -->
       <div class="align-items-center col-xl-1">
         <a href="index.php">
-        <img class="img-fluid" src="web/imagenes/logos/logoElectroVadillo.png" alt="logotipo de Electro Vadillo">
+          <img class="img-fluid" src="web/imagenes/logos/logoElectroVadillo.png" alt="logotipo de Electro Vadillo">
         </a>
       </div>
 
@@ -60,7 +60,7 @@
         <!-- <button type="button" class="btn btn-warning">Regístrate</button> -->
 
 
-        <a href="" class="col-4 mt-1 ms-4 px-2 position-relative">
+        <a class="col-4 mt-1 ms-4 px-2 position-relative" data-bs-target="#offcanvasWithBothOptions" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasWithBothOptions">
           <span class="material-symbols-outlined text-black fs-2">
             shopping_cart
           </span>
@@ -74,6 +74,8 @@
 
           ?>
         </a>
+        
+
 
       </div>
 
@@ -91,6 +93,30 @@
 
   <div class="container mt-4" id="contenido">
     <h1 class="fs-3">ELECTRO VADILLO</h1>
+
+    <!-- OFFCANVAS DE CARRITO  -->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div>
+          Este es el offcanvas donde se mostrará un listado de todos los productos que se vayan añadiendo al carrito. <br>
+          Ya que se hace desde base, habría que meditar si la petición a la BBDD la hace el defaultController 
+        </div>
+        <div class="dropdown mt-3">
+          <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Dropdown button
+          </button> -->
+          <!-- <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
     <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
     <?= $contenido ?>
   </div>
