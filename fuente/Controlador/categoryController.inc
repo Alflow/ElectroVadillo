@@ -9,12 +9,12 @@ class categoryController
     public function showCategory()
     {
         // Si no ha añadido ningún producto, inicializa el carrito de sesión en 0
-        if(!isset($_SESSION['productsInBasket'])){
-            $_SESSION['productsInBasket']=0;
+        if (!isset($_SESSION['productsInBasket'])) {
+            $_SESSION['productsInBasket'] = 0;
         }
 
 
-        
+
 
         // if (isset($_SESSION['basket'])) {
         //     echo '<pre>';
@@ -37,28 +37,27 @@ class categoryController
                             'pv' => $details['pv'],
                             'stock' => $details['stock'],
                             'idCategoria' => $details['idCategoria'],
-                            
+
                         ];
                 }
-                
             } catch (PDOException $ex) {
                 echo ($ex->getMessage());
             }
-       
-       
+
+
             // -----------------------------SI SE ESTÁ PIDIENDO UN PRODUCTO................................................................
             if (isset($_GET['order'])) {
                 // saneamos el id del producto para proceder a meterlo al carrito
                 $productId = sanea($_GET['order']);
-    
+
                 // preparamos el array con todos los campos que querremos pasar a la función de BDRepositiorio, para que 
                 // haga un insert en la tabla carrito
 
-                $productToBasketInfo=[];
-                if(isset($_SESSION['socio'])){
-                    $productToBasketInfo['clientId']= $_SESSION['socio']['id'];
-                }else{
-                    $productToBasketInfo['clientId']= session_id();
+                $productToBasketInfo = [];
+                if (isset($_SESSION['socio'])) {
+                    $productToBasketInfo['buyer'] = $_SESSION['socio']['id'];
+                } else {
+                    $productToBasketInfo['buyer'] = session_id();
                 }
 
                 // ATENCIÓN. NO FUNCIONARÁ CON EL SESION ID YA QUE LA COLUMNA ID EN CARRITO ES INT. 
@@ -67,22 +66,22 @@ class categoryController
 
 
 
-                $productToBasketInfo['productId']= $productId;
-                $productToBasketInfo['quantity']= 1;
-                $productToBasketInfo['productPrice']= $categoryProductsFinal[$productId]['pv'];
-                
+                $productToBasketInfo['productId'] = $productId;
+                $productToBasketInfo['quantity'] = 1;
+                $productToBasketInfo['productPrice'] = $categoryProductsFinal[$productId]['pv'];
+
                 ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
-                
+
                 echo '<pre>';
                 var_dump($productToBasketInfo);
                 echo '</pre>';
-    
+
                 // Lógica temporal para guardar en un carrito de $_SESSION. Debemos usar la tabla pedido.
                 if (isset($_SESSION['basket'][$productId])) {
                     // Producto ya existe, incrementar la cantidad
                     $_SESSION['basket'][$productId]['cantidad']++;
-    
-                    if(isset($_SESSION['productsInBasket'])){
+
+                    if (isset($_SESSION['productsInBasket'])) {
                         $_SESSION['productsInBasket']++;
                     }
                 } else {
@@ -91,20 +90,18 @@ class categoryController
                         $_SESSION['basket'][$productId] = [
                             'cantidad' => 1
                         ];
-    
-                        if(isset($_SESSION['productsInBasket'])){
+
+                        if (isset($_SESSION['productsInBasket'])) {
                             $_SESSION['productsInBasket']++;
                         }
                     } else {
                         echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
                     }
                 }
-    
-    
+
+
                 header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
             }
-        
-        
         }
 
         require __DIR__ . '/../../app/plantillas/category.php';

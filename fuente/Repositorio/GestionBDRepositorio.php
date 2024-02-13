@@ -119,14 +119,15 @@ class GestionBDRepositorio
 
     public function insertIntoBasket(array $productToBasket)
     {
-        $sql = 'INSERT INTO dbo.carrito (idCliente, codArticulo, cantidad, pv) VALUES (:idCli, :codArt, :qtity, :price)';
+        $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
         try {
 
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
             $snt = $con->prepare($sql);
-            $snt->bindParam(':idCli', $productToBasket['clientId']);
+       
+            $snt->bindParam(':buyer', $productToBasket['buyer']);
             $snt->bindParam(':codArt', $productToBasket['productId']);
             $snt->bindParam(':qtity', $productToBasket['quantity']);
             $snt->bindParam(':price', $productToBasket['productPrice']);

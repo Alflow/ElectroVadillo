@@ -2,6 +2,7 @@
 //index.php
 session_start();
 error_reporting(E_ALL);
+var_dump($_SERVER);
 
 require_once __DIR__ . '/fuente/Controlador/defaultController.inc'; /*controladores */
 require_once __DIR__ . '/fuente/Controlador/categoryController.inc'; /*controladores */
