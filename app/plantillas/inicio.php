@@ -11,8 +11,8 @@
 
     <div class="col">
       <a href="index.php?ctl=showCategory&cat=<?= $categoria  ?>" class="text-decoration-none">
-        <div class="card glass">
-          <img src="web/imagenes/<?= $detalles['imagen'] ?>" class="card-img-top" alt="asdsd">
+        <div class="card glass p-0">
+          <img src="web/imagenes/<?= $detalles['imagen'] ?>" class="card-img-top" alt="Product category img">
           <div class="card-body">
             <h5 class="card-title"><?= $detalles['nombre']  ?></h5>
             <p class="card-text"><?= substr($detalles['descripcion'], 0, 60) . '...'  ?></p>

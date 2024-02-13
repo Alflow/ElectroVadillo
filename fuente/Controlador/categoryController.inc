@@ -28,7 +28,7 @@ class categoryController
                 $categories = ((new GestionBDRepositorio))->getCategories();
 
                 $categoryProductsTemp = ((new GestionBDRepositorio)->getProductsByCategory($_GET['cat']));
-
+                // Maquetando estructura final del array de productos de la categoría.
                 $categoryProductsFinal = [];
                 foreach ($categoryProductsTemp as $index => $details) {
                     $categoryProductsFinal[$details['codigo']] =
