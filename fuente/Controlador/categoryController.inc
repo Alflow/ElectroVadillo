@@ -7,13 +7,14 @@ class categoryController
 {
     public function showCategory()
     {
+        
         // Asegurar que hay una variable de sesión para el carrito
         if (!isset($_SESSION['productsInBasket'])) {
             $_SESSION['productsInBasket'] = 0;
             $_SESSION['basket'] = array();
         }
 
-        
+
         if (isset($_SESSION['socio']) && isset($_COOKIE['carrito_id'])) {
             $userId = $_SESSION['socio']['id'];
             $carritoId = $_COOKIE['carrito_id'];
@@ -22,7 +23,7 @@ class categoryController
 
             // Elimina la cookie del carrito ya que ahora está vinculada a un usuario registrado
             setcookie('carrito_id', "", time() - 3600, "/");
-            // También puedes querer actualizar la información de la sesión
+            // unseteamos
             unset($_SESSION['carrito_id']);
         }
 
@@ -75,6 +76,7 @@ class categoryController
                     $productToBasketInfo['buyer'] = $_SESSION['socio']['id'];
                 }
 
+                
                 // Insertar el producto en el carrito de la base de datos
                 ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
 
