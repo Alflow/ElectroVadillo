@@ -126,23 +126,49 @@ class GestionBDRepositorio
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
             $snt = $con->prepare($sql);
-       
+
             $snt->bindParam(':buyer', $productToBasket['buyer']);
             $snt->bindParam(':codArt', $productToBasket['productId']);
             $snt->bindParam(':qtity', $productToBasket['quantity']);
             $snt->bindParam(':price', $productToBasket['productPrice']);
-            
-            
-            if(!$snt->execute()){
+
+
+            if (!$snt->execute()) {
                 $con->rollBack();
-            throw new Exception('No ha sido posible la transacción');
+                throw new Exception('No ha sido posible la transacción');
             }
             $con->commit();
-            
         } catch (PDOException $ex) {
             $con->rollBack();
             throw $ex;
-            
         }
+    }
+
+
+    // PENDIENTE IMPLEMENTAR ESTA FUNCIÓN SIN LAS COOKIES PERO EN EL ACCESS CONTROLLER. 
+    public function updateCartBuyer($carritoId, $userId)
+    {
+        // Código para actualizar el carrito en la base de datos
+        $sql = "UPDATE Carrito SET comprador = :userId WHERE comprador = :carritoId";
+        try {
+
+            $con = ((new ConexionBd))->getConexion();
+            $con->beginTransaction();
+            $snt = $con->prepare($sql);
+
+            $snt->bindParam(':userId', $userId);
+            $snt->bindParam(':carritoId', $carritoId);
+
+            if (!$snt->execute()) {
+                $con->rollBack();
+                throw new Exception('No ha sido posible la transacción');
+            }
+            $con->commit();
+        } catch (PDOException $ex) {
+            $con->rollBack();
+            throw $ex;
+        }
+
+        // Aquí, prepara y ejecuta la consulta con $userId y $carritoId
     }
 }
