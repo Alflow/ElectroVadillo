@@ -74,7 +74,7 @@
 
           ?>
         </a>
-        
+
 
 
       </div>
@@ -103,7 +103,7 @@
       <div class="offcanvas-body">
         <div>
           Este es el offcanvas donde se mostrará un listado de todos los productos que se vayan añadiendo al carrito. <br>
-          Ya que se hace desde base, habría que meditar si la petición a la BBDD la hace el defaultController 
+          Ya que se hace desde base, habría que meditar si la petición a la BBDD la hace el defaultController
         </div>
         <div class="dropdown mt-3">
           <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -117,6 +117,11 @@
         </div>
       </div>
     </div>
+    <?php
+    echo '<pre> Productos en el carrito (TEST)';
+    var_dump($_SESSION['productsInBasket']);
+    echo '</pre>';
+    ?>
     <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
     <?= $contenido ?>
   </div>

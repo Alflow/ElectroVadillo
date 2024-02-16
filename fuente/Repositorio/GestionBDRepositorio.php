@@ -149,7 +149,7 @@ class GestionBDRepositorio
     public function updateCartBuyer($carritoId, $userId)
     {
         // Código para actualizar el carrito en la base de datos
-        $sql = "UPDATE Carrito SET comprador = :userId WHERE comprador = :carritoId";
+        $sql = "UPDATE carrito SET comprador = :userId WHERE comprador = :carritoId";
         try {
 
             $con = ((new ConexionBd))->getConexion();
@@ -168,7 +168,5 @@ class GestionBDRepositorio
             $con->rollBack();
             throw $ex;
         }
-
-        // Aquí, prepara y ejecuta la consulta con $userId y $carritoId
     }
 }
