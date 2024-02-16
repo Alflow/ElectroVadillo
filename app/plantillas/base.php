@@ -35,6 +35,16 @@
         <li><a href="#" class="nav-link px-2 text-black fs-3">Quienes Somos</a></li>
       </ul>
 
+      <?php if (isset($_SESSIO['socio'])) : ?>
+        <?php
+
+        ?>
+        <span>
+          Bienvenido <?= $_SESSION['socio']['']   ?>
+        </span>
+
+      <?php endif; ?>
+
       <!-- Formulario de búsqueda y botones a la derecha -->
       <div class="d-flex">
 
@@ -118,9 +128,12 @@
       </div>
     </div>
     <?php
-    echo '<pre> Productos en el carrito (TEST)';
-    var_dump($_SESSION['productsInBasket']);
-    echo '</pre>';
+    if (isset($_SESSION['productsInBasket'])) {
+      echo '<pre> Productos en el carrito (TEST)';
+      var_dump($_SESSION['productsInBasket']);
+      echo '</pre>';
+    }
+
     ?>
     <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
     <?= $contenido ?>
