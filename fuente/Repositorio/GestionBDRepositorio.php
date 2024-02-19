@@ -121,7 +121,7 @@ class GestionBDRepositorio
     {
         $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
-        $sql2 = 'UPDATE dbo.carrito SET cantidad = cantidad -1 WHERE codArticulo = :codArt';
+        // $sql2 = 'UPDATE dbo.carrito SET cantidad = cantidad +1 WHERE codArticulo = :codArt';
 
         try {
 
@@ -139,13 +139,13 @@ class GestionBDRepositorio
                 $con->rollBack();
                 throw new Exception('No ha sido posible la transacción');
             }
-            $snt = $con->prepare($sql2);
-            $snt->bindParam(':codArt', $productToBasket['productId']);
+            // $snt = $con->prepare($sql2);
+            // $snt->bindParam(':codArt', $productToBasket['productId']);
 
-            if (!$snt->execute()) {
-                $con->rollBack();
-                throw new Exception('No ha sido posible la transacción');
-            }
+            // if (!$snt->execute()) {
+            //     $con->rollBack();
+            //     throw new Exception('No ha sido posible la transacción');
+            // }
 
             $con->commit();
         } catch (PDOException $ex) {

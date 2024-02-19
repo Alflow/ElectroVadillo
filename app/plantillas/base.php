@@ -70,19 +70,17 @@
         <!-- <button type="button" class="btn btn-warning">Regístrate</button> -->
 
 
-        <a class="col-4 mt-1 ms-4 px-2 position-relative" data-bs-target="#offcanvasWithBothOptions" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasWithBothOptions">
-          <span class="material-symbols-outlined text-black fs-2">
-            shopping_cart
-          </span>
-          <?php
-          if (isset($_SESSION['productsInBasket'])) {
-            // echo '<pre>';
 
-            echo ('<span class="col-2 position-absolute productsInBasket">' . $_SESSION['productsInBasket'] . '</span>');
-            // echo '</pre>';
-          }
+        <a href="" data-bs-target="#offcanvasWithBothOptions" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasWithBothOptions">
+          <button type="button" class="btn bg-white position-relative">
+            <span class="material-symbols-outlined text-black fs-2">
+              shopping_cart
+            </span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <?= (empty($_SESSION['productsInBasket'])) ? '0' : '<span class="col-2">' . $_SESSION['productsInBasket'] . '</span>'   ?>
 
-          ?>
+            </span>
+          </button>
         </a>
 
 
@@ -118,27 +116,33 @@
                 <img src="web/imagenes/<?= $code ?>.png" class="img-fluid" alt="Producto">
                 <span><?= $code ?></span>
               </div>
-              <div class="col-4"><span>x<?= $details['cantidad'] ?></span></div>
-              <div class="col-5 d-flex">
-                <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">-</div>
-                <div class="d-flex align-items-center justify-content-center col-3" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
-                <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">+</div>
+              <div class="col-3"><span>x<?= $details['cantidad'] ?></span></div>
+
+              <div class="col-6 d-flex flex-column">
+                <div class="col-12 d-flex">
+                  <div class="d-flex col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">-</div>
+                  <div class="d-flex  col-4 align-items-center justify-content-center" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
+                  <div class="d-flex  col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">+</div>
+                </div>
+                <div class="col-12 border mt-1 rounded text-center"> <span><?= number_format($details['precio'], 2) . '€' ?></span></div>
+
               </div>
 
               <!-- PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS. -->
               <!-- // PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS.// -->
             </li>
-            
-            <?php endforeach; ?>
-            
-            
-          </ul>
-          <div class="col-12">
-            <span> Precio total </span> <div> <span><?=$_SESSION['totalPrice']?>€</span></div>
-            <a href="">
-              <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
-            </a>
-          
+
+          <?php endforeach; ?>
+
+
+        </ul>
+        <div class="col-12">
+          <span> Precio total </span>
+          <div> <span><?= $_SESSION['totalPrice'] ?>€</span></div>
+          <a href="">
+            <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
+          </a>
+
         </div>
       </div>
 
@@ -176,7 +180,7 @@
         <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
           <img src="assets/media/LOGO/LOGO OSCURO.png" alt="" style="max-width: 100px;">
         </a>
-        <span class="mb-3 mb-md-0 text-body-secondary">&copy; 2024 ELECTRO VADILLO (Designed by Alfredo A.H)</span>
+        <span class="mb-3 mb-md-0 text-body-white">&copy; 2024 ELECTRO VADILLO (Designed by Alfredo A.H)</span>
       </div>
 
       <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
