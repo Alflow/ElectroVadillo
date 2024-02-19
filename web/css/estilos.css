@@ -1,5 +1,16 @@
 /* for testing */
 
+@media (min-width: 1025px) {
+  .h-custom {
+  height: 100vh !important;
+  }
+  }
+
+
+
+
+
+
 
 .solidrojo{
   border: solid 1px red !important;

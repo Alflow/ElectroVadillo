@@ -17,7 +17,13 @@
 </head>
 
 <body>
-
+  <?php
+  if (isset($_SESSION['basket'])) {
+    echo '<pre>';
+    var_dump($_SESSION['basket']);
+    echo '</pre>';
+  }
+  ?>
   <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
@@ -74,7 +80,7 @@
 
           ?>
         </a>
-        
+
 
 
       </div>
@@ -97,28 +103,45 @@
     <!-- OFFCANVAS DE CARRITO  -->
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <h5 class="offcanvas-title mt-3" id="offcanvasExampleLabel">Productos en su carrito:</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <div>
-          Este es el offcanvas donde se mostrará un listado de todos los productos que se vayan añadiendo al carrito. <br>
-          Ya que se hace desde base, habría que meditar si la petición a la BBDD la hace el defaultController 
-        </div>
-        <div class="dropdown mt-3">
-          <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <ul class="list-group">
+          <?php foreach ($_SESSION['basket'] as $code => $details) : ?>
+            <li class="list-group-item d-flex align-items-center justify-content-between">
+              <div class="col-2">
+                <img src="web/imagenes/<?= $code ?>.png" class="img-fluid" alt="Producto">
+                <span><?= $code ?></span>
+              </div>
+              <div class="col-4"><span>x<?= $details['cantidad'] ?></span></div>
+              <div class="col-6 d-flex">
+                <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">-</div>
+                <div class="d-flex align-items-center justify-content-center col-3" style="max-height: 1.5rem;"><?=$details['cantidad'] ?></div>
+                <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">+</div>
+              </div>
+            </li>
+
+          <?php endforeach; ?>
+
+
+        </ul>
+      </div>
+
+      <div class="dropdown mt-3">
+        <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
             Dropdown button
           </button> -->
-          <!-- <ul class="dropdown-menu">
+        <!-- <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul> -->
-        </div>
       </div>
     </div>
-    <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
-    <?= $contenido ?>
+  </div>
+  <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
+  <?= $contenido ?>
   </div>
 
   <!-- iconos de redes sociales -->
