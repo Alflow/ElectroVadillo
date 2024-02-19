@@ -121,28 +121,62 @@ class GestionBDRepositorio
     {
         $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
+        $sql2 = 'UPDATE dbo.carrito SET cantidad = cantidad -1 WHERE codArticulo = :codArt';
+
         try {
 
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
             $snt = $con->prepare($sql);
-       
+
             $snt->bindParam(':buyer', $productToBasket['buyer']);
             $snt->bindParam(':codArt', $productToBasket['productId']);
             $snt->bindParam(':qtity', $productToBasket['quantity']);
             $snt->bindParam(':price', $productToBasket['productPrice']);
-            
-            
-            if(!$snt->execute()){
+
+
+            if (!$snt->execute()) {
                 $con->rollBack();
-            throw new Exception('No ha sido posible la transacción');
+                throw new Exception('No ha sido posible la transacción');
             }
+            $snt = $con->prepare($sql2);
+            $snt->bindParam(':codArt', $productToBasket['productId']);
+
+            if (!$snt->execute()) {
+                $con->rollBack();
+                throw new Exception('No ha sido posible la transacción');
+            }
+
             $con->commit();
-            
         } catch (PDOException $ex) {
             $con->rollBack();
             throw $ex;
-            
+        }
+    }
+
+
+    // PENDIENTE IMPLEMENTAR ESTA FUNCIÓN SIN LAS COOKIES PERO EN EL ACCESS CONTROLLER. 
+    public function updateCartBuyer($carritoId, $userId)
+    {
+        // Código para actualizar el carrito en la base de datos
+        $sql = "UPDATE carrito SET comprador = :userId WHERE comprador = :carritoId";
+        try {
+
+            $con = ((new ConexionBd))->getConexion();
+            $con->beginTransaction();
+            $snt = $con->prepare($sql);
+
+            $snt->bindParam(':userId', $userId);
+            $snt->bindParam(':carritoId', $carritoId);
+
+            if (!$snt->execute()) {
+                $con->rollBack();
+                throw new Exception('No ha sido posible la transacción');
+            }
+            $con->commit();
+        } catch (PDOException $ex) {
+            $con->rollBack();
+            throw $ex;
         }
     }
 }

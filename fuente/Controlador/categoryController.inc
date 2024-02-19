@@ -20,12 +20,7 @@ class categoryController
 
 
 
-        // if (isset($_SESSION['basket'])) {
-        //     echo '<pre>';
-        //     var_dump($_SESSION['basket']);
-
-        //     echo '</pre>';
-        // }
+         
         if (isset($_GET['cat'])) {
             try {
 
@@ -85,7 +80,11 @@ class categoryController
                     if (isset($_SESSION['productsInBasket'])) {
                         $_SESSION['productsInBasket']++;
                     }
+
                     $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
+
+                    
+
                 } else {
                     // Producto no existe en el carrito, añadir con cantidad inicial de 1
                     if (((new GestionBDRepositorio))->checkProductExists($productId)) {

@@ -40,6 +40,10 @@ class LoginController
                     if (password_verify($submittedPassword, $socio['pwd'])) {
                         // DATOS DE ACCESO CORRECTOS. (PASSWORD CORRECTA)
                         $_SESSION['socio'] = $socio; // Guarda el correo del usuario en la sesión
+
+                        if (isset($_SESSION['productsInBasket'])) {
+                            ((new GestionBDRepositorio))->updateCartBuyer(session_id(), $socio['id']);
+                        }
                         header('Location: index.php');
                         exit();
                     } else {

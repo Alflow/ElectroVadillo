@@ -35,6 +35,16 @@
         <li><a href="#" class="nav-link px-2 text-black fs-3">Quienes Somos</a></li>
       </ul>
 
+      <?php if (isset($_SESSIO['socio'])) : ?>
+        <?php
+
+        ?>
+        <span>
+          Bienvenido <?= $_SESSION['socio']['']   ?>
+        </span>
+
+      <?php endif; ?>
+
       <!-- Formulario de búsqueda y botones a la derecha -->
       <div class="d-flex">
 
@@ -116,18 +126,18 @@
               </div>
 
               <!-- PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS. -->
-              <a href="">
-                <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
-              </a>
               <!-- // PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS.// -->
             </li>
-
-          <?php endforeach; ?>
-
-
-        </ul>
-        <div class="col-12">
-          <span> Precio total </span> <div> <span><?=$_SESSION['totalPrice']?>€</span></div>
+            
+            <?php endforeach; ?>
+            
+            
+          </ul>
+          <div class="col-12">
+            <span> Precio total </span> <div> <span><?=$_SESSION['totalPrice']?>€</span></div>
+            <a href="">
+              <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
+            </a>
           
         </div>
       </div>
