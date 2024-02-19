@@ -17,13 +17,7 @@
 </head>
 
 <body>
-  <?php
-  if (isset($_SESSION['basket'])) {
-    echo '<pre>';
-    var_dump($_SESSION['basket']);
-    echo '</pre>';
-  }
-  ?>
+
   <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
@@ -110,22 +104,32 @@
         <ul class="list-group">
           <?php foreach ($_SESSION['basket'] as $code => $details) : ?>
             <li class="list-group-item d-flex align-items-center justify-content-between">
-              <div class="col-2">
+              <div class="col-3">
                 <img src="web/imagenes/<?= $code ?>.png" class="img-fluid" alt="Producto">
                 <span><?= $code ?></span>
               </div>
               <div class="col-4"><span>x<?= $details['cantidad'] ?></span></div>
-              <div class="col-6 d-flex">
+              <div class="col-5 d-flex">
                 <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">-</div>
-                <div class="d-flex align-items-center justify-content-center col-3" style="max-height: 1.5rem;"><?=$details['cantidad'] ?></div>
+                <div class="d-flex align-items-center justify-content-center col-3" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
                 <div class="d-flex bg-primary align-items-center justify-content-center rounded col-4" style="max-height: 1.5rem;">+</div>
               </div>
+
+              <!-- PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS. -->
+              <a href="">
+                <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
+              </a>
+              <!-- // PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS.// -->
             </li>
 
           <?php endforeach; ?>
 
 
         </ul>
+        <div class="col-12">
+          <span> Precio total </span> <div> <span><?=$_SESSION['totalPrice']?>€</span></div>
+          
+        </div>
       </div>
 
       <div class="dropdown mt-3">
@@ -139,9 +143,9 @@
           </ul> -->
       </div>
     </div>
-  </div>
-  <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
-  <?= $contenido ?>
+
+    <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
+    <?= $contenido ?>
   </div>
 
   <!-- iconos de redes sociales -->

@@ -5,10 +5,15 @@ class DefaultController
 {
   public function inicio()
   {
-    $_SESSION['control']='inicio';
+    //vista inicial, preparamos la variable en sesión de precio total para el offcanvas del carrito. 
+    if (!isset($_SESSION['totalPrice'])) {
+      $_SESSION['totalPrice'] = 0;
+    }
+
+    $_SESSION['control'] = 'inicio';
 
 
-  
+
 
     try {
       // (new GestionBDRepositorio)->getPwd();

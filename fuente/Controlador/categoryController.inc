@@ -11,6 +11,10 @@ class categoryController
         // Si no ha añadido ningún producto, inicializa el carrito de sesión en 0
         if (!isset($_SESSION['productsInBasket'])) {
             $_SESSION['productsInBasket'] = 0;
+            
+        }
+        if (!isset($_SESSION['totalPrice'])) {
+            $_SESSION['totalPrice'] = 0;
         }
 
 
@@ -60,11 +64,7 @@ class categoryController
                     $productToBasketInfo['buyer'] = session_id();
                 }
 
-                // ATENCIÓN. NO FUNCIONARÁ CON EL SESION ID YA QUE LA COLUMNA ID EN CARRITO ES INT. 
-                // HAY QUE MODIFICAR LA COLUMNA DE ESA TABLA O USAR EN SU DEFECTO UNA COLUMNA DE CORREO QUE SOPORTE VARCHAR PARA PONER EL SESSION ID EN SU DEFECTO
-
-
-
+               
 
                 $productToBasketInfo['productId'] = $productId;
                 $productToBasketInfo['quantity'] = 1;
@@ -80,20 +80,23 @@ class categoryController
                 if (isset($_SESSION['basket'][$productId])) {
                     // Producto ya existe, incrementar la cantidad
                     $_SESSION['basket'][$productId]['cantidad']++;
+                    $_SESSION['basket'][$productId]['precio']+= $productToBasketInfo['productPrice'];
 
                     if (isset($_SESSION['productsInBasket'])) {
                         $_SESSION['productsInBasket']++;
                     }
+                    $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
                 } else {
                     // Producto no existe en el carrito, añadir con cantidad inicial de 1
                     if (((new GestionBDRepositorio))->checkProductExists($productId)) {
                         $_SESSION['basket'][$productId] = [
-                            'cantidad' => 1
+                            'cantidad' => 1, 'precio'=> $productToBasketInfo['productPrice']
                         ];
-
+                        
                         if (isset($_SESSION['productsInBasket'])) {
                             $_SESSION['productsInBasket']++;
                         }
+                        $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
                     } else {
                         echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
                     }
