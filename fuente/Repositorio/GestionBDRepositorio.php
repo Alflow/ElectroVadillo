@@ -38,10 +38,7 @@ class GestionBDRepositorio
 
     public function getClienteByECorreo($eCorreo)
     {
-
         $sql = 'SELECT id, direccion, cP, idPueblo eCorreo, pwd FROM cliente WHERE eCorreo = :eCorreo';
-
-
         try {
             $con = (new ConexionBd())->getConexion();
             $snt = $con->prepare($sql);
