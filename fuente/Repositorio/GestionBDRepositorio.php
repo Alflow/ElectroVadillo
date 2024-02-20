@@ -124,7 +124,7 @@ class GestionBDRepositorio
     {
         $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
-        $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codArticulo = :codArt';
+        // $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codArticulo = :codArt';
 
         try {
 
