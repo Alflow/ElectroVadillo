@@ -18,6 +18,12 @@
 
 <body>
 
+<?php
+echo '<pre>';
+var_dump($_SESSION['basket']);
+echo '</pre>';
+
+?>
   <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
@@ -109,7 +115,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="list-group">
+        <!-- Si el cliente introduce un artículo en el carrito, se mostrará la interfaz. -->
+        <?php if (isset($_SESSION['basket'])): ?>
+          <ul class="list-group">
           <?php foreach ($_SESSION['basket'] as $code => $details) : ?>
             <li class="list-group-item d-flex align-items-center justify-content-between">
               <div class="col-3">
@@ -122,14 +130,17 @@
                 <div class="col-12 d-flex">
                   <div class="d-flex col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">-</div>
                   <div class="d-flex  col-4 align-items-center justify-content-center" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
-                  <div class="d-flex  col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">+</div>
+                 <!-- FUNCIONALIDAD EN PRUEBAS -->
+                  <!-- <a class="col-4 text-white text-decoration-none" href="index.php?ctl=addOneMoreItem&anotherOne=<?=$code?>"> -->
+                  <a class="col-4 text-white text-decoration-none" href="index.php?ctl=showCategory&cat=<?= $details['categoria'] . '&order=' . $code    ?>">
+                    <div class="d-flex  col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">+</div>
+                  </a>
                 </div>
                 <div class="col-12 border mt-1 rounded text-center"> <span><?= number_format($details['precio'], 2) . '€' ?></span></div>
 
               </div>
 
-              <!-- PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS. -->
-              <!-- // PENDIENTE ASIGNAR FUNCIONALIDAD DE BOTÓN, CONTROLADOR Y RUTAS.// -->
+              
             </li>
 
           <?php endforeach; ?>
@@ -142,6 +153,12 @@
           <a href="">
             <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
           </a>
+<!-- En caso contrario, se mostrará un mensaje de carrito vacío -->
+        <?php else: ?>
+          <h2>Tu carrito está vacío actualmente</h2>
+
+        <?php endif; ?>
+        
 
         </div>
       </div>

@@ -17,10 +17,6 @@ class categoryController
             $_SESSION['totalPrice'] = 0;
         }
 
-
-
-
-         
         if (isset($_GET['cat'])) {
             try {
 
@@ -64,6 +60,8 @@ class categoryController
                 $productToBasketInfo['productId'] = $productId;
                 $productToBasketInfo['quantity'] = 1;
                 $productToBasketInfo['productPrice'] = $categoryProductsFinal[$productId]['pv'];
+                // AÑADIDA CATEGORÍA AL ARRAY DEL PRODUCTO PEDIDO
+                $productToBasketInfo['category'] = $categoryProductsFinal[$productId]['idCategoria'];
 
                 ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
 
@@ -76,6 +74,7 @@ class categoryController
                     // Producto ya existe, incrementar la cantidad
                     $_SESSION['basket'][$productId]['cantidad']++;
                     $_SESSION['basket'][$productId]['precio']+= $productToBasketInfo['productPrice'];
+                    $_SESSION['basket'][$productId]['categoria']= $productToBasketInfo['category'];
 
                     if (isset($_SESSION['productsInBasket'])) {
                         $_SESSION['productsInBasket']++;
@@ -89,7 +88,7 @@ class categoryController
                     // Producto no existe en el carrito, añadir con cantidad inicial de 1
                     if (((new GestionBDRepositorio))->checkProductExists($productId)) {
                         $_SESSION['basket'][$productId] = [
-                            'cantidad' => 1, 'precio'=> $productToBasketInfo['productPrice']
+                            'cantidad' => 1, 'precio'=> $productToBasketInfo['productPrice'], 'categoria'=> $productToBasketInfo['category']
                         ];
                         
                         if (isset($_SESSION['productsInBasket'])) {
@@ -107,5 +106,13 @@ class categoryController
         }
 
         require __DIR__ . '/../../app/plantillas/category.php';
+    }
+
+    // FUNCIONALIDAD PARA AÑADIR OTRO PRODUCTO MÁS DEL MISMO PRODUCTO YA AÑADIDO AL CARRITO
+    public function addOneMoreItem(){
+        if(isset($_GET['anotherOne'])){
+            $_SESSION['basket'][$_GET['anotherOne']]['cantidad']++;
+            $_SESSION['productsInBasket']++;
+        }
     }
 }
