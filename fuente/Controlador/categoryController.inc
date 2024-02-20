@@ -1,3 +1,6 @@
+<!-- PENDIENTE CHEKEAR EXISTENCIA DE PRODUCTO EN TABLA CARRITO EN TODAS LAS FUNCIONALIDADES DE CATEGORÍA -->
+
+
 <?php
 // Ejemplo de controlador para página home de la aplicación
 require_once __DIR__ . '/../Repositorio/GestionBDRepositorio.php';
@@ -54,7 +57,11 @@ class categoryController
                     $productToBasketInfo['buyer'] = session_id();
                 }
 
-
+                if (!((new GestionBDRepositorio))->checkProductExists($productId)) {
+                    echo ('<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>');
+                    header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                    exit();
+                }
 
                 $productToBasketInfo['productId'] = $productId;
                 $productToBasketInfo['quantity'] = 1;
@@ -62,15 +69,21 @@ class categoryController
                 // AÑADIDA CATEGORÍA AL ARRAY DEL PRODUCTO PEDIDO
                 $productToBasketInfo['category'] = $categoryProductsFinal[$productId]['idCategoria'];
 
-                ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
+                if ((((new GestionBDRepositorio))->checkProductExists($productId)) == true) {
+                } else {
+                    var_dump('ERRRRRRRORRRRRR, NO EXISTE ESE PRODUCTO O NO HAY EXISTENCIAS');
+                }
 
-                echo '<pre>';
-                var_dump($productToBasketInfo);
-                echo '</pre>';
+                // echo '<pre>';
+                // var_dump($productToBasketInfo);
+                // echo '</pre>';
 
                 // Lógica temporal para guardar en un carrito de $_SESSION. Debemos usar la tabla pedido.
                 if (isset($_SESSION['basket'][$productId])) {
-                    // Producto ya existe, incrementar la cantidad
+                    // Producto ya existe en el session carrito, incrementar la cantidad en la posición cantidad del producto del carrito y añadir en tabla carrito
+                    if (((new GestionBDRepositorio))->checkProductExists($productId)) {
+                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
+                    }
                     $_SESSION['basket'][$productId]['cantidad']++;
                     $_SESSION['basket'][$productId]['precio'] += $productToBasketInfo['productPrice'];
                     $_SESSION['basket'][$productId]['categoria'] = $productToBasketInfo['category'];
@@ -91,8 +104,11 @@ class categoryController
                             $_SESSION['productsInBasket']++;
                         }
                         $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
+                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
                     } else {
                         echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
+                        header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                        exit();
                     }
                 }
 

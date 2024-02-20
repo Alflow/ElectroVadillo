@@ -87,17 +87,19 @@ class GestionBDRepositorio
         return $products;
     }
 
+    // Función que comprueba tanto la existencia del producto como su disponibilidad. 
+    // Si el producto no existe o no tiene más de 1 existencia, devolverá un false. 
 
     public function checkProductExists(string $codeProduct)
     {
-        $sql = 'SELECT 1 from articulo WHERE codigo = :codeProduct';
+        $sql = 'SELECT * from articulo WHERE codigo = :codeProduct AND stock > 0';
 
         try {
             $con = ((new ConexionBd))->getConexion();
             $snt = $con->prepare($sql);
             $snt->bindParam(':codeProduct', $codeProduct, PDO::PARAM_STR);
             $snt->execute();
-            $product = $snt->fetchAll(PDO::FETCH_ASSOC);
+            $product = $snt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
         } finally {
@@ -109,7 +111,7 @@ class GestionBDRepositorio
             }
         }
 
-        if (empty($product)) {
+        if (($product) == false) {
             return false;
         } else {
             return true;
@@ -117,11 +119,15 @@ class GestionBDRepositorio
     }
 
 
+
+
+
+
     public function insertIntoBasket(array $productToBasket)
     {
         $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
-        // $sql2 = 'UPDATE dbo.carrito SET cantidad = cantidad +1 WHERE codArticulo = :codArt';
+        $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codArticulo = :codArt';
 
         try {
 

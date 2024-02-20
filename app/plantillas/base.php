@@ -18,12 +18,15 @@
 
 <body>
 
+
+  <!-- DESCOMENTAR ESTO PARA OBSERVAR DATOS DE LA SESIÓN CARRITO  -->
   <?php
   echo '<pre>';
   var_dump($_SESSION['basket']);
   echo '</pre>';
-
   ?>
+  <!-- DESCOMENTAR ESTO PARA OBSERVAR DATOS DE LA SESIÓN CARRITO  -->
+
   <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
