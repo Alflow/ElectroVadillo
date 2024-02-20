@@ -18,12 +18,12 @@
 
 <body>
 
-<?php
-echo '<pre>';
-var_dump($_SESSION['basket']);
-echo '</pre>';
+  <?php
+  echo '<pre>';
+  var_dump($_SESSION['basket']);
+  echo '</pre>';
 
-?>
+  ?>
   <header class="p-3">
     <div class="container d-flex flex-wrap align-items-center justify-content-between col-md-12">
 
@@ -116,51 +116,53 @@ echo '</pre>';
       </div>
       <div class="offcanvas-body">
         <!-- Si el cliente introduce un artículo en el carrito, se mostrará la interfaz. -->
-        <?php if (isset($_SESSION['basket'])): ?>
+        <?php if (isset($_SESSION['basket'])) : ?>
           <ul class="list-group">
-          <?php foreach ($_SESSION['basket'] as $code => $details) : ?>
-            <li class="list-group-item d-flex align-items-center justify-content-between">
-              <div class="col-3">
-                <img src="web/imagenes/<?= $code ?>.png" class="img-fluid" alt="Producto">
-                <span><?= $code ?></span>
-              </div>
-              <div class="col-3"><span>x<?= $details['cantidad'] ?></span></div>
-
-              <div class="col-6 d-flex flex-column">
-                <div class="col-12 d-flex">
-                  <div class="d-flex col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">-</div>
-                  <div class="d-flex  col-4 align-items-center justify-content-center" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
-                 <!-- FUNCIONALIDAD EN PRUEBAS -->
-                  <!-- <a class="col-4 text-white text-decoration-none" href="index.php?ctl=addOneMoreItem&anotherOne=<?=$code?>"> -->
-                  <a class="col-4 text-white text-decoration-none" href="index.php?ctl=showCategory&cat=<?= $details['categoria'] . '&order=' . $code    ?>">
-                    <div class="d-flex  col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">+</div>
-                  </a>
+            <?php foreach ($_SESSION['basket'] as $code => $details) : ?>
+              <li class="list-group-item d-flex align-items-center justify-content-between">
+                <div class="col-3">
+                  <img src="web/imagenes/<?= $code ?>.png" class="img-fluid" alt="Producto">
+                  <span><?= $code ?></span>
                 </div>
-                <div class="col-12 border mt-1 rounded text-center"> <span><?= number_format($details['precio'], 2) . '€' ?></span></div>
+                <div class="col-3"><span>x<?= $details['cantidad'] ?></span></div>
 
-              </div>
+                <div class="col-6 d-flex flex-column">
+                  <div class="col-12 d-flex">
+                    <a class="col-4 text-white text-decoration-none" href="index.php?ctl=showCategory&cat=<?= $details['categoria'] . '&substract=' . $code    ?>">
+                      <div class="d-flex col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">-</div>
+                    </a>
+                    <div class="d-flex  col-4 align-items-center justify-content-center" style="max-height: 1.5rem;"><?= $details['cantidad'] ?></div>
+                    <!-- FUNCIONALIDAD EN PRUEBAS -->
 
-              
-            </li>
+                    <a class="col-4 text-white text-decoration-none" href="index.php?ctl=showCategory&cat=<?= $details['categoria'] . '&order=' . $code    ?>">
+                      <div class="d-flex  col-4 bg-primary align-items-center justify-content-center rounded" style="max-height: 1.5rem;">+</div>
+                    </a>
+                  </div>
+                  <div class="col-12 border mt-1 rounded text-center"> <span><?= number_format($details['precio'], 2) . '€' ?></span></div>
 
-          <?php endforeach; ?>
+                </div>
 
 
-        </ul>
-        <div class="col-12">
-          <span> Precio total </span>
-          <div> <span><?= $_SESSION['totalPrice'] ?>€</span></div>
-          <a href="">
-            <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
-          </a>
-<!-- En caso contrario, se mostrará un mensaje de carrito vacío -->
-        <?php else: ?>
-          <h2>Tu carrito está vacío actualmente</h2>
+              </li>
 
-        <?php endif; ?>
-        
+            <?php endforeach; ?>
 
-        </div>
+
+          </ul>
+          <div class="col-12">
+            <span> Precio total </span>
+            <div> <span><?= $_SESSION['totalPrice'] ?>€</span></div>
+            <a href="">
+              <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
+            </a>
+            <!-- En caso contrario, se mostrará un mensaje de carrito vacío -->
+          <?php else : ?>
+            <h2>Tu carrito está vacío actualmente</h2>
+
+          <?php endif; ?>
+
+
+          </div>
       </div>
 
       <div class="dropdown mt-3">

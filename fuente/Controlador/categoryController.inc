@@ -11,7 +11,6 @@ class categoryController
         // Si no ha añadido ningún producto, inicializa el carrito de sesión en 0
         if (!isset($_SESSION['productsInBasket'])) {
             $_SESSION['productsInBasket'] = 0;
-            
         }
         if (!isset($_SESSION['totalPrice'])) {
             $_SESSION['totalPrice'] = 0;
@@ -55,7 +54,7 @@ class categoryController
                     $productToBasketInfo['buyer'] = session_id();
                 }
 
-               
+
 
                 $productToBasketInfo['productId'] = $productId;
                 $productToBasketInfo['quantity'] = 1;
@@ -73,24 +72,21 @@ class categoryController
                 if (isset($_SESSION['basket'][$productId])) {
                     // Producto ya existe, incrementar la cantidad
                     $_SESSION['basket'][$productId]['cantidad']++;
-                    $_SESSION['basket'][$productId]['precio']+= $productToBasketInfo['productPrice'];
-                    $_SESSION['basket'][$productId]['categoria']= $productToBasketInfo['category'];
+                    $_SESSION['basket'][$productId]['precio'] += $productToBasketInfo['productPrice'];
+                    $_SESSION['basket'][$productId]['categoria'] = $productToBasketInfo['category'];
 
                     if (isset($_SESSION['productsInBasket'])) {
                         $_SESSION['productsInBasket']++;
                     }
 
                     $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
-
-                    
-
                 } else {
                     // Producto no existe en el carrito, añadir con cantidad inicial de 1
                     if (((new GestionBDRepositorio))->checkProductExists($productId)) {
                         $_SESSION['basket'][$productId] = [
-                            'cantidad' => 1, 'precio'=> $productToBasketInfo['productPrice'], 'categoria'=> $productToBasketInfo['category']
+                            'cantidad' => 1, 'precio' => $productToBasketInfo['productPrice'], 'categoria' => $productToBasketInfo['category']
                         ];
-                        
+
                         if (isset($_SESSION['productsInBasket'])) {
                             $_SESSION['productsInBasket']++;
                         }
@@ -102,17 +98,27 @@ class categoryController
 
 
                 header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                exit();
+            }
+
+
+            // -----------------------------SI SE ESTÁ RESTANDO UN PRODUCTO
+
+            if (isset($_GET['substract'])) {
+                $productIdSubstract = sanea($_GET['substract']);
+
+                var_dump('substract' . $productIdSubstract);
+
+                if (isset($_SESSION['basket'][$productIdSubstract])) {
+
+                    $_SESSION['basket'][$productIdSubstract]['cantidad']--;
+                }
+
+                header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                exit();
             }
         }
 
         require __DIR__ . '/../../app/plantillas/category.php';
-    }
-
-    // FUNCIONALIDAD PARA AÑADIR OTRO PRODUCTO MÁS DEL MISMO PRODUCTO YA AÑADIDO AL CARRITO
-    public function addOneMoreItem(){
-        if(isset($_GET['anotherOne'])){
-            $_SESSION['basket'][$_GET['anotherOne']]['cantidad']++;
-            $_SESSION['productsInBasket']++;
-        }
     }
 }
