@@ -152,36 +152,37 @@
 
 
           </ul>
-          <div class="col-12">
+          <div class="col-12 border rounded mt-2">
             <span> Precio total </span>
             <div> <span><?= $_SESSION['totalPrice'] ?>€</span></div>
-            <a href="">
-              <button type="button" class="btn btn-primary btn-sm text-end">Tramitar pedido</button>
-            </a>
-            <!-- En caso contrario, se mostrará un mensaje de carrito vacío -->
-          <?php else : ?>
-            <h2>Tu carrito está vacío actualmente</h2>
-
-          <?php endif; ?>
-
 
           </div>
+          <a href="">
+            <button type="button" class="btn btn-primary btn-sm text-end rounded mt-2">Tramitar pedido</button>
+          </a>
+        <?php else : ?>
+          <h2>Tu carrito está vacío actualmente</h2>
       </div>
+    <?php endif; ?>
 
-      <div class="dropdown mt-3">
-        <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+
+
+    </div>
+
+    <div class="dropdown mt-3">
+      <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
             Dropdown button
           </button> -->
-        <!-- <ul class="dropdown-menu">
+      <!-- <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul> -->
-      </div>
     </div>
+  </div>
 
-    <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
-    <?= $contenido ?>
+  <!-- CONTROLA SI EL USUARIO HA INICIADO SESIÓN -->
+  <?= $contenido ?>
   </div>
 
   <!-- iconos de redes sociales -->

@@ -123,11 +123,16 @@ class categoryController
             if (isset($_GET['substract'])) {
                 $productIdSubstract = sanea($_GET['substract']);
 
-                var_dump('substract' . $productIdSubstract);
+                var_dump($_SESSION['basket'][$productIdSubstract]);
 
                 if (isset($_SESSION['basket'][$productIdSubstract])) {
-
-                    $_SESSION['basket'][$productIdSubstract]['cantidad']--;
+                    if ($_SESSION['basket'][$productIdSubstract]['cantidad'] > 1) {
+                        $_SESSION['basket'][$productIdSubstract]['cantidad']--;
+                    } else {
+                        var_dump($_SESSION['basket'][$productIdSubstract]);
+                        unset($_SESSION['basket'][$productIdSubstract]);
+                        var_dump($_SESSION['basket'][$productIdSubstract]);
+                    }
                 }
 
                 header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
