@@ -11,6 +11,8 @@ $mapeoRutas =
     array('controller' => 'LoginController', 'action' => 'checkLoginForm'),
     'logOut' =>
     array('controller' => 'LoginController', 'action' => 'logOut'),
+    'cancelBasket' =>
+    array('controller' => 'CategoryController', 'action' => 'cancelCart'),
   );
 
 

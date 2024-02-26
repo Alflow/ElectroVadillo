@@ -160,6 +160,9 @@
           <a href="">
             <button type="button" class="btn btn-primary btn-sm text-end rounded mt-2">Tramitar pedido</button>
           </a>
+          <a href="index.php?ctl=cancelBasket">
+            <button type="button" class="btn btn-danger btn-sm text-end rounded mt-2">Cancelar pedido</button>
+          </a>
         <?php else : ?>
           <h2>Tu carrito está vacío actualmente</h2>
       </div>

@@ -124,7 +124,7 @@ class GestionBDRepositorio
     {
         $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
 
-        // $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codArticulo = :codArt';
+        $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codigo = :codArt';
 
         try {
 
@@ -142,13 +142,13 @@ class GestionBDRepositorio
                 $con->rollBack();
                 throw new Exception('No ha sido posible la transacción');
             }
-            // $snt = $con->prepare($sql2);
-            // $snt->bindParam(':codArt', $productToBasket['productId']);
+            $snt = $con->prepare($sql2);
+            $snt->bindParam(':codArt', $productToBasket['productId']);
 
-            // if (!$snt->execute()) {
-            //     $con->rollBack();
-            //     throw new Exception('No ha sido posible la transacción');
-            // }
+            if (!$snt->execute()) {
+                $con->rollBack();
+                throw new Exception('No ha sido posible la transacción');
+            }
 
             $con->commit();
         } catch (PDOException $ex) {
@@ -157,6 +157,48 @@ class GestionBDRepositorio
         }
     }
 
+    public function cancelBasket($idCliente)
+    {
+        $sqlSelect = 'SELECT * FROM dbo.carrito WHERE comprador = :buyer';
+
+        $sqlUpdateStock = 'UPDATE dbo.articulo SET stock = stock + ? WHERE codigo = ?';
+
+        $sqlDeleteCarrito = 'DELETE FROM dbo.carrito WHERE comprador = :buyer';
+
+
+        try {
+            $con = ((new ConexionBd)->getConexion());
+            $con->beginTransaction();
+
+              // Selección de productos en el carrito para el comprador
+
+            $sntSelect = $con->prepare($sqlSelect);
+            $sntSelect->bindParam(':buyer', $idCliente, PDO::PARAM_STR);
+            $sntSelect->execute();
+            $buyerProductsForCancel = $sntSelect->fetchAll(PDO::FETCH_ASSOC);
+
+            
+
+            // Preparación para actualizar stock
+            $sntUpdateStock = $con->prepare($sqlUpdateStock);
+
+            foreach ($buyerProductsForCancel as $index) {
+                $sntUpdateStock->bindValue(1,$index['cantidad'], PDO::PARAM_INT);
+                $sntUpdateStock->bindValue(2,$index['codArticulo'], PDO::PARAM_INT);
+                $sntUpdateStock->execute();
+            }
+            
+             // Eliminación de carrito
+            $sntDeleteCart = $con->prepare($sqlDeleteCarrito);
+            $sntDeleteCart->bindParam(':buyer', $idCliente, PDO::PARAM_STR);
+            $sntDeleteCart->execute();
+
+            $con->commit();
+        } catch (PDOException $ex) {
+            $con->rollback();
+            throw $ex;
+        }
+    }
 
     // PENDIENTE IMPLEMENTAR ESTA FUNCIÓN SIN LAS COOKIES PERO EN EL ACCESS CONTROLLER. 
     public function updateCartBuyer($carritoId, $userId)

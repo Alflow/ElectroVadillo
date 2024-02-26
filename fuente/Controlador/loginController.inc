@@ -71,6 +71,11 @@ class LoginController
 
     public function logOut()
     {
+        if(isset($_SESSION['basket'])){
+            (new GestionBDRepositorio)->cancelBasket($_SESSION['socio']['id']);
+            unset($_SESSION['basket']);
+        }
+
         unset($_SESSION['socio']);
         $_SESSION = '';
         //retrasa dos segundos el cierre de sesión.

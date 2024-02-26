@@ -142,4 +142,19 @@ class categoryController
 
         require __DIR__ . '/../../app/plantillas/category.php';
     }
+    public function cancelCart()
+    {
+        $arrayCategorias = ((new GestionBDRepositorio)->getCategories());
+        (new GestionBDRepositorio)->cancelBasket($_SESSION['socio']['id']);
+        unset($_SESSION['basket']);
+        $_SESSION['totalPrice'] = 0;
+        // echo '<pre>';
+        // var_dump($arrayPruebaCancel);
+        // echo '</pre>';
+
+
+
+
+        header('location: index.php?ctl=inicio');
+    }
 }

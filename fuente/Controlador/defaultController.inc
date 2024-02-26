@@ -16,7 +16,7 @@ class DefaultController
 
 
     try {
-      // (new GestionBDRepositorio)->getPwd();
+      
       $arrayCategorias = ((new GestionBDRepositorio)->getCategories());
     } catch (PDOException $ex) {
       echo ($ex->getMessage());
