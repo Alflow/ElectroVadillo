@@ -118,44 +118,130 @@ class GestionBDRepositorio
 
 
 
-
-
-    public function insertIntoBasket(array $productToBasket)
+    public function insertIntoBasket(array $productToBasket, $buyer)
     {
-        $sql = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
+        $sqlExists = 'SELECT * FROM dbo.CARRITO WHERE comprador = :comprador AND codArticulo = :productId';
 
-        $sql2 = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codigo = :codArt';
+        // En el caso de que NO  exista el producto en el carrito de nuestro cliente
+        $sqlNotExistsInsert = 'INSERT INTO dbo.carrito (comprador, codArticulo, cantidad, pv) VALUES (:buyer, :codArt, :qtity, :price)';
+        $sqlNotExistsUpdate = 'UPDATE dbo.articulo SET stock = stock -1 WHERE codigo = :codArt';
+
+        // En el caso de que  SÍ  exista el producto en el carrito de nuestro cliente
+        $sqlExistsUpdateBasket = 'UPDATE dbo.carrito SET cantidad = cantidad + 1 WHERE codArticulo = :codArt AND comprador = :buyer';
+
+
 
         try {
-
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
-            $snt = $con->prepare($sql);
+            $snt = $con->prepare($sqlExists);
 
-            $snt->bindParam(':buyer', $productToBasket['buyer']);
-            $snt->bindParam(':codArt', $productToBasket['productId']);
-            $snt->bindParam(':qtity', $productToBasket['quantity']);
-            $snt->bindParam(':price', $productToBasket['productPrice']);
+            $snt->bindParam(':comprador', $buyer);
+            $snt->bindParam(':productId', $productToBasket['productId']);
+            $snt->execute();
+            $response = $snt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Si no existía en carrito ese producto pedido por ese comprador...
+            if (empty($response)) {
+                $snt = $con->prepare($sqlNotExistsInsert);
+
+                $snt->bindParam(':buyer', $productToBasket['buyer']);
+                $snt->bindParam(':codArt', $productToBasket['productId']);
+                $snt->bindParam(':qtity', $productToBasket['quantity']);
+                $snt->bindParam(':price', $productToBasket['productPrice']);
 
 
-            if (!$snt->execute()) {
-                $con->rollBack();
-                throw new Exception('No ha sido posible la transacción');
+                if (!$snt->execute()) {
+                    $con->rollBack();
+                    throw new Exception('No ha sido posible la transacción');
+                }
+                $snt = $con->prepare($sqlNotExistsUpdate);
+                $snt->bindParam(':codArt', $productToBasket['productId']);
+
+                if (!$snt->execute()) {
+                    $con->rollBack();
+                    throw new Exception('No ha sido posible la transacción');
+                }
+            } else {
+                $snt = $con->prepare($sqlExistsUpdateBasket);
+                $snt->bindParam(':codArt', $productToBasket['productId']);
+                $snt->bindParam(':buyer', $buyer);
+
+                if (!$snt->execute()) {
+                    $con->rollBack();
+                    throw new Exception('No ha sido posible la transacción');
+                }
+
+
+                $snt = $con->prepare($sqlNotExistsUpdate);
+                $snt->bindParam(':codArt', $productToBasket['productId']);
+
+                if (!$snt->execute()) {
+                    $con->rollBack();
+                    throw new Exception('No ha sido posible la transacción');
+                }
             }
-            $snt = $con->prepare($sql2);
-            $snt->bindParam(':codArt', $productToBasket['productId']);
-
-            if (!$snt->execute()) {
-                $con->rollBack();
-                throw new Exception('No ha sido posible la transacción');
-            }
-
             $con->commit();
         } catch (PDOException $ex) {
             $con->rollBack();
             throw $ex;
         }
     }
+
+    public function substractFromBasket($productId, $clientId)
+    {
+        // $sqlExists = 'SELECT * FROM dbo.CARRITO WHERE comprador = :comprador AND codArticulo = :productId';
+
+        //    EN CASO DE QUE SÍ EXISTA EN EL CARRITO DEL COMPRADOR ESE PRODUCTO 
+        $sqlUpdateStock = 'UPDATE articulo SET stock = stock + 1 WHERE codigo = :codigo';
+        $sqlSubstractOne = 'IF EXISTS (SELECT * FROM carrito WHERE codigo = :codArt and comprador = :comprador AND cantidad = 1)
+        BEGIN
+        DELETE FROM carrito WHERE codigo = :codArt and comprador = :comprador 
+        END
+        ELSE
+        BEGIN
+        UPDATE carrito SET cantidad = cantidad - 1 WHERE codigo = :codArt and comprador = :comprador
+        END';
+
+
+
+
+        try {
+
+            $con = ((new ConexionBd))->getConexion();
+            $con->beginTransaction();
+            $snt = $con->prepare($sqlUpdateStock);
+
+            $snt->bindParam(':codigo', $productId);
+            $pruebita = $snt->execute();
+            die(var_dump($pruebita));
+            // if (!$snt->execute()) {
+            //     $con->rollBack();
+            //     throw new Exception('No ha sido posible la transacción');
+            //     exit();
+            // }
+
+
+            $snt2 = $con->prepare($sqlSubstractOne);
+            $snt2->bindParam(':codArt', $productId);
+            $snt2->bindParam(':comprador', $clientId);
+            $pruebita2 = $snt2->execute();
+            die(var_dump($pruebita2));
+
+            // if (!$snt2->execute()) {
+            //     $con->rollBack();
+            //     throw new Exception('No ha sido posible la transacción');
+            //     exit();
+            // }
+
+            $con->commit();
+        } catch (PDOException $ex) {
+            $con->rollBack();
+            throw new Exception('No ha sido posible la transacción');
+        }
+    }
+
+
 
     public function cancelBasket($idCliente)
     {
@@ -170,25 +256,25 @@ class GestionBDRepositorio
             $con = ((new ConexionBd)->getConexion());
             $con->beginTransaction();
 
-              // Selección de productos en el carrito para el comprador
+            // Selección de productos en el carrito para el comprador
 
             $sntSelect = $con->prepare($sqlSelect);
             $sntSelect->bindParam(':buyer', $idCliente, PDO::PARAM_STR);
             $sntSelect->execute();
             $buyerProductsForCancel = $sntSelect->fetchAll(PDO::FETCH_ASSOC);
 
-            
+
 
             // Preparación para actualizar stock
             $sntUpdateStock = $con->prepare($sqlUpdateStock);
 
             foreach ($buyerProductsForCancel as $index) {
-                $sntUpdateStock->bindValue(1,$index['cantidad'], PDO::PARAM_INT);
-                $sntUpdateStock->bindValue(2,$index['codArticulo'], PDO::PARAM_INT);
+                $sntUpdateStock->bindValue(1, $index['cantidad'], PDO::PARAM_INT);
+                $sntUpdateStock->bindValue(2, $index['codArticulo'], PDO::PARAM_INT);
                 $sntUpdateStock->execute();
             }
-            
-             // Eliminación de carrito
+
+            // Eliminación de carrito
             $sntDeleteCart = $con->prepare($sqlDeleteCarrito);
             $sntDeleteCart->bindParam(':buyer', $idCliente, PDO::PARAM_STR);
             $sntDeleteCart->execute();

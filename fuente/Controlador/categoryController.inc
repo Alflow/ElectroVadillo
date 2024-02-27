@@ -82,7 +82,9 @@ class categoryController
                 if (isset($_SESSION['basket'][$productId])) {
                     // Producto ya existe en el session carrito, incrementar la cantidad en la posición cantidad del producto del carrito y añadir en tabla carrito
                     if (((new GestionBDRepositorio))->checkProductExists($productId)) {
-                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
+
+
+                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo, $productToBasketInfo['buyer']);
                     }
                     $_SESSION['basket'][$productId]['cantidad']++;
                     $_SESSION['basket'][$productId]['precio'] += $productToBasketInfo['productPrice'];
@@ -104,7 +106,7 @@ class categoryController
                             $_SESSION['productsInBasket']++;
                         }
                         $_SESSION['totalPrice'] += $productToBasketInfo['productPrice'];
-                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo);
+                        ((new GestionBDRepositorio))->insertIntoBasket($productToBasketInfo, $productToBasketInfo['buyer']);
                     } else {
                         echo '<script>alert("¡OCURRIÓ UN ERROR! ESE ARTÍCULO NO EXISTE ")</script>';
                         header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
@@ -133,6 +135,14 @@ class categoryController
                         unset($_SESSION['basket'][$productIdSubstract]);
                         var_dump($_SESSION['basket'][$productIdSubstract]);
                     }
+                }
+                if (isset($_SESSION['socio'])) {
+                    echo '<pre>';
+                    var_dump($_SESSION['socio']);
+                    echo '</pre>';
+                    ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, $_SESSION['socio']['id']);
+                } else {
+                    ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, session_id());
                 }
 
                 header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
