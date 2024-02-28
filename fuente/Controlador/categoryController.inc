@@ -125,6 +125,7 @@ class categoryController
             if (isset($_GET['substract'])) {
                 $productIdSubstract = sanea($_GET['substract']);
 
+
                 var_dump($_SESSION['basket'][$productIdSubstract]);
 
                 if (isset($_SESSION['basket'][$productIdSubstract])) {
@@ -145,8 +146,8 @@ class categoryController
                     ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, session_id());
                 }
 
-                header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
-                exit();
+                // header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                // exit();
             }
         }
 

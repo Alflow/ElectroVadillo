@@ -194,13 +194,13 @@ class GestionBDRepositorio
 
         //    EN CASO DE QUE SÍ EXISTA EN EL CARRITO DEL COMPRADOR ESE PRODUCTO 
         $sqlUpdateStock = 'UPDATE articulo SET stock = stock + 1 WHERE codigo = :codigo';
-        $sqlSubstractOne = 'IF EXISTS (SELECT * FROM carrito WHERE codigo = :codArt and comprador = :comprador AND cantidad = 1)
+        $sqlSubstractOne = 'IF EXISTS (SELECT * FROM dbo.carrito WHERE codArticulo = :codArt and comprador = :comprador AND cantidad = 1)
         BEGIN
-        DELETE FROM carrito WHERE codigo = :codArt and comprador = :comprador 
+            DELETE FROM carrito WHERE codArticulo = :codArt and comprador = :comprador 
         END
         ELSE
         BEGIN
-        UPDATE carrito SET cantidad = cantidad - 1 WHERE codigo = :codArt and comprador = :comprador
+            UPDATE carrito SET cantidad = cantidad - 1 WHERE codArticulo = :codArt and comprador = :comprador
         END';
 
 
@@ -210,15 +210,15 @@ class GestionBDRepositorio
 
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
-            $snt = $con->prepare($sqlUpdateStock);
+            // $snt = $con->prepare($sqlUpdateStock);
 
-            $snt->bindParam(':codigo', $productId);
-            $pruebita = $snt->execute();
-            die(var_dump($pruebita));
+            // $snt->bindParam(':codigo', $productId);
+            // // $pruebita = $snt->execute();
+            // // die(var_dump($pruebita));
             // if (!$snt->execute()) {
             //     $con->rollBack();
             //     throw new Exception('No ha sido posible la transacción');
-            //     exit();
+            //     // exit();
             // }
 
 
@@ -226,18 +226,18 @@ class GestionBDRepositorio
             $snt2->bindParam(':codArt', $productId);
             $snt2->bindParam(':comprador', $clientId);
             $pruebita2 = $snt2->execute();
-            die(var_dump($pruebita2));
+            var_dump($pruebita2);
 
-            // if (!$snt2->execute()) {
+            // if (!$snt2->execute() ) {
             //     $con->rollBack();
             //     throw new Exception('No ha sido posible la transacción');
-            //     exit();
+            //     // exit();
             // }
 
             $con->commit();
         } catch (PDOException $ex) {
             $con->rollBack();
-            throw new Exception('No ha sido posible la transacción');
+            throw new Exception('No ha sido posible la transacción2');
         }
     }
 
