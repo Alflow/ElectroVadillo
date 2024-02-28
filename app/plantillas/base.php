@@ -21,9 +21,9 @@
 
   <!-- DESCOMENTAR ESTO PARA OBSERVAR DATOS DE LA SESIÓN CARRITO  -->
   <?php
-  echo '<pre>';
-  var_dump($_SESSION['basket']);
-  echo '</pre>';
+  // echo '<pre>';
+  // var_dump($_SESSION['basket']);
+  // echo '</pre>';
   ?>
   <!-- DESCOMENTAR ESTO PARA OBSERVAR DATOS DE LA SESIÓN CARRITO  -->
 

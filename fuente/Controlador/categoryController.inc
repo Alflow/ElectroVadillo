@@ -126,28 +126,31 @@ class categoryController
                 $productIdSubstract = sanea($_GET['substract']);
 
 
-                var_dump($_SESSION['basket'][$productIdSubstract]);
+                // var_dump($_SESSION['basket'][$productIdSubstract]);
 
                 if (isset($_SESSION['basket'][$productIdSubstract])) {
                     if ($_SESSION['basket'][$productIdSubstract]['cantidad'] > 1) {
                         $_SESSION['basket'][$productIdSubstract]['cantidad']--;
                     } else {
-                        var_dump($_SESSION['basket'][$productIdSubstract]);
+                        // var_dump($_SESSION['basket'][$productIdSubstract]);
                         unset($_SESSION['basket'][$productIdSubstract]);
-                        var_dump($_SESSION['basket'][$productIdSubstract]);
+                        
+                        // var_dump($_SESSION['basket'][$productIdSubstract]);
                     }
                 }
                 if (isset($_SESSION['socio'])) {
-                    echo '<pre>';
-                    var_dump($_SESSION['socio']);
-                    echo '</pre>';
+                    // echo '<pre>';
+                    // var_dump($_SESSION['socio']);
+                    // echo '</pre>';
                     ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, $_SESSION['socio']['id']);
+                    $_SESSION['productsInBasket']--;
                 } else {
                     ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, session_id());
+                    $_SESSION['productsInBasket']--;
                 }
 
-                // header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
-                // exit();
+                header('location: index.php?ctl=showCategory&cat=' . $_GET['cat']);
+                exit();
             }
         }
 

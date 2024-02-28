@@ -190,54 +190,66 @@ class GestionBDRepositorio
 
     public function substractFromBasket($productId, $clientId)
     {
-        // $sqlExists = 'SELECT * FROM dbo.CARRITO WHERE comprador = :comprador AND codArticulo = :productId';
-
-        //    EN CASO DE QUE SÍ EXISTA EN EL CARRITO DEL COMPRADOR ESE PRODUCTO 
-        $sqlUpdateStock = 'UPDATE articulo SET stock = stock + 1 WHERE codigo = :codigo';
-        $sqlSubstractOne = 'IF EXISTS (SELECT * FROM dbo.carrito WHERE codArticulo = :codArt and comprador = :comprador AND cantidad = 1)
-        BEGIN
-            DELETE FROM carrito WHERE codArticulo = :codArt and comprador = :comprador 
-        END
-        ELSE
-        BEGIN
-            UPDATE carrito SET cantidad = cantidad - 1 WHERE codArticulo = :codArt and comprador = :comprador
-        END';
-
-
-
+        $sqlExists = 'SELECT * FROM dbo.carrito WHERE comprador = :comprador AND codArticulo = :productId';
 
         try {
-
             $con = ((new ConexionBd))->getConexion();
             $con->beginTransaction();
-            // $snt = $con->prepare($sqlUpdateStock);
+            $sntSelect = $con->prepare($sqlExists);
+            $sntSelect->bindParam(':productId', $productId, PDO::PARAM_INT);
+            $sntSelect->bindParam(':comprador', $clientId, PDO::PARAM_STR);
+            $sntSelect->execute();
+            $response = $sntSelect->fetchAll(PDO::FETCH_ASSOC);
 
-            // $snt->bindParam(':codigo', $productId);
-            // // $pruebita = $snt->execute();
-            // // die(var_dump($pruebita));
-            // if (!$snt->execute()) {
-            //     $con->rollBack();
-            //     throw new Exception('No ha sido posible la transacción');
-            //     // exit();
-            // }
+            if (!empty($response)) {
+                echo'<pre>';
+                var_dump($response[0]['cantidad']);
+                echo'</pre>';
+                if ($response[0]['cantidad'] == 1) {
+                    $sqlDeleteOfBasket = 'DELETE FROM dbo.carrito where codArticulo = :code AND comprador = :comprador';
+                    $sntDelete = $con->prepare($sqlDeleteOfBasket);
+                    $sntDelete->bindParam(':code', $productId, PDO::PARAM_STR);
+                    $sntDelete->bindParam(':comprador', $clientId, PDO::PARAM_STR);
+                    if (!$sntDelete->execute()) {
+                        $con->rollBack();
+                        throw new Exception('No ha sido posible la transacción');
+                        // exit();
+                    }
+                    $sqlBringBackToStock = 'UPDATE dbo.articulo SET stock = stock + 1 WHERE codigo = :codigo';
+                    $sntUpdate = $con->prepare($sqlBringBackToStock);
+                    $sntUpdate->bindParam(':codigo', $productId, PDO::PARAM_STR);
+                    if (!$sntUpdate->execute()) {
+                        $con->rollBack();
+                        throw new Exception('No ha sido posible la transacción');
+                    }
 
+                    // die("ESTRUCTURA DEL ARRAY". var_dump($response  ));
+                } else if($response[0]['cantidad'] > 1){
+                    var_dump("SE ACABO EL PRODUCTO DEL CARRITO");
+                    if ($response[0]['cantidad'] > 1) {
+                    $sqlUpdateBasket = 'UPDATE dbo.carrito SET cantidad = cantidad -1 WHERE comprador = :compradorCarrito AND codArticulo = :codArt';
+                    $sntUpdateBasket = $con->prepare($sqlUpdateBasket);
+                    $sntUpdateBasket->bindParam(':compradorCarrito', $clientId, PDO::PARAM_STR);
+                    $sntUpdateBasket->bindParam(':codArt', $productId, PDO::PARAM_STR);
+                    if(!$sntUpdateBasket->execute()) {
+                        $con->rollBack();
+                        throw new Exception("NO fue posible la transacción");
+                    }
+                    $sqlUpdateStock = 'UPDATE dbo.articulo SET stock = stock +1 WHERE codigo = :codArt';
+                    $sntUpdateStock = $con->prepare($sqlUpdateStock);
+                    $sntUpdateStock->bindParam(':codArt', $productId, PDO::PARAM_STR);
 
-            $snt2 = $con->prepare($sqlSubstractOne);
-            $snt2->bindParam(':codArt', $productId);
-            $snt2->bindParam(':comprador', $clientId);
-            $pruebita2 = $snt2->execute();
-            var_dump($pruebita2);
-
-            // if (!$snt2->execute() ) {
-            //     $con->rollBack();
-            //     throw new Exception('No ha sido posible la transacción');
-            //     // exit();
-            // }
-
-            $con->commit();
+                    if (!$sntUpdateStock->execute()) {
+                        $con->rollBack();
+                        throw new Exception("NO fue posible la transacción");
+                    }
+                }
+            }
+                $con->commit();
+            }
         } catch (PDOException $ex) {
             $con->rollBack();
-            throw new Exception('No ha sido posible la transacción2');
+            throw $ex;
         }
     }
 
