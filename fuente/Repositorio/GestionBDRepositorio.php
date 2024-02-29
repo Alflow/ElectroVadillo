@@ -23,7 +23,7 @@ class GestionBDRepositorio
         } catch (PDOException $ex) {
             throw new PDOException($ex->getMessage());
         } catch (Exception $ex) {
-            throw $ex->getMessage();
+            throw new PDOException($ex->getMessage());
         } finally {
             if (isset($snt)) {
                 unset($snt);
