@@ -322,4 +322,6 @@ class GestionBDRepositorio
             throw $ex;
         }
     }
+
+    // public function signUpUser()
 }

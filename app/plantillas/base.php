@@ -109,8 +109,6 @@
 
 
   <div class="container mt-4" id="contenido">
-    <h1 class="fs-3">ELECTRO VADILLO</h1>
-
     <!-- OFFCANVAS DE CARRITO  -->
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
       <div class="offcanvas-header">

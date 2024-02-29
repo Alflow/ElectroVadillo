@@ -7,7 +7,48 @@ class SignUpController{
 
     public function signUp (){
 
+        if(isset($_POST['ok'])){
+            $errors= [];
+            
+            $inputs = $_POST['signUp'];
+            echo '<pre>';
+            var_dump($inputs);
+            echo '</pre>';
+            
+            // Saneamiento de inputs
+            $userFullName = sanea($inputs['fullName']);
+            $userAddress = sanea($inputs['address']);
+            $userCP = sanea($inputs['cp']);
+            $userMail = sanea($inputs['userEMail']);
+            $userPassword = sanea($inputs['userPassword']);
+            $userPasswordConfirm = sanea($inputs['userPasswordConfirm']);
 
+            if(empty($userFullName)){
+                $errors['emptyFullName'] = 'Es necesario que introduzcas tu nombre';
+            }
+            if(empty($userAddress)){
+                $errors['emptyAddress'] = 'Es necesario que introduzcas tu dirección';
+            }
+            if(empty($userCP)){
+                $errors['emptyUserCP'] = 'Es necesario que introduzcas tu CP';
+            }
+
+            if(!filter_var($userMail, FILTER_VALIDATE_EMAIL)){
+                $errors['badFormatEmail']= 'Formato de correo electrónico no válido';
+            }
+
+            if($userPassword !== $userPasswordConfirm){
+                $errors['notEqualPasswords'] = 'Las contraseñas deben ser iguales';
+            }else{
+                var_dump("CONTRAEÑAS IGUALES");
+            }
+
+            // si no se ha producido ningún error, comenzamos la funcionalidad de registro
+            if(empty($errors)){
+                var_dump("NO SE HAN APRECIADO ERRORES");
+                // (new GestionBDRepositorio)->signUpUser()
+            }
+        }
         require __DIR__ . '/../../app/plantillas/signUpView.php';
     }
 
