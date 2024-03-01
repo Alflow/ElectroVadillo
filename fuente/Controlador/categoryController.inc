@@ -142,10 +142,10 @@ class categoryController
                     // echo '<pre>';
                     // var_dump($_SESSION['socio']);
                     // echo '</pre>';
-                    ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, $_SESSION['socio']['id']);
+                    ((new GestionBDRepositorio))->substractFromBasket2($productIdSubstract, $_SESSION['socio']['id']);
                     $_SESSION['productsInBasket']--;
                 } else {
-                    ((new GestionBDRepositorio))->substractFromBasket($productIdSubstract, session_id());
+                    ((new GestionBDRepositorio))->substractFromBasket2($productIdSubstract, session_id());
                     $_SESSION['productsInBasket']--;
                 }
 

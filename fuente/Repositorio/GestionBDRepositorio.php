@@ -188,6 +188,18 @@ class GestionBDRepositorio
         }
     }
 
+    public function substractFromBasket2(string $productId, string $clientId)
+    {   $sql = 'EXEC prRestaCarrito :codArticulo, :comprador';
+        try {
+            $con = ((new ConexionBd))->getConexion();
+            $snt = $con->prepare($sql);
+            $snt->execute([':codArticulo' => $productId, ':comprador' =>$clientId]);
+         } catch (\PDOException $ex) {
+            throw $ex;
+        }
+    }
+
+
     public function substractFromBasket($productId, $clientId)
     {
         $sqlExists = 'SELECT * FROM dbo.carrito WHERE comprador = :comprador AND codArticulo = :productId';
@@ -323,5 +335,6 @@ class GestionBDRepositorio
         }
     }
 
-    // public function signUpUser()
+    // procedimiento almacenado
+    
 }

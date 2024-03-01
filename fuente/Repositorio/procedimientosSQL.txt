@@ -1,0 +1,77 @@
+
+
+
+
+-----------------------RESTAR CARRITO---------------------------------
+
+USE [MaterialesElectricos]
+GO
+
+/****** Object:  StoredProcedure [dbo].[prRestaCarrito]    Script Date: 01/03/2024 17:31:04 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER   PROCEDURE [dbo].[prRestaCarrito] (
+	@codArticulo AS VARCHAR(10),
+	@comprador AS VARCHAR(50)
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	DECLARE @ErrorNumber AS INT
+	DECLARE @ErrorSeverity AS INT
+	DECLARE @ErrorState AS INT
+	DECLARE @ErrorMessage AS NVARCHAR(4000)
+	DECLARE @ErrorLine AS INT
+	DECLARE @ErrorProcedure AS NVARCHAR(4000)
+	BEGIN TRAN
+	BEGIN TRY
+IF EXISTS (SELECT * 
+			FROM dbo.carrito
+			WHERE codArticulo = @codArticulo
+			AND comprador = @comprador 
+			AND cantidad = 1)
+BEGIN
+		DELETE FROM carrito WHERE codArticulo = @codArticulo and comprador = @comprador 
+END
+ELSE
+BEGIN
+	UPDATE carrito SET cantidad = cantidad - 1 WHERE codArticulo = @codArticulo and comprador = @comprador
+END;
+update articulo
+  set stock = stock + 1
+ WHERE codigo = @codArticulo;
+ IF @@TRANCOUNT > 0
+   COMMIT;
+ END TRY
+ 	BEGIN CATCH
+		SELECT 
+			@ErrorNumber = ERROR_NUMBER(),
+			@ErrorSeverity = ERROR_SEVERITY(),
+			@ErrorState = ERROR_STATE(),
+			@ErrorProcedure =ERROR_PROCEDURE(),
+			@ErrorLine = ERROR_LINE(),
+			@ErrorMessage = ERROR_MESSAGE();  
+
+		RAISERROR (@ErrorMessage, @ErrorNumber,   @ErrorSeverity, @ErrorState, @ErrorProcedure, @ErrorLine);
+		IF @@TRANCOUNT > 0
+			ROLLBACK;
+	END CATCH
+
+END
+GO
+
+
+
+
+------------------------------------------------------------
