@@ -335,6 +335,34 @@ class GestionBDRepositorio
         }
     }
 
-    // procedimiento almacenado
+    public function getProvincias(){
+        $sql = 'SELECT * from provincia';
+        try{
+            $con = ((new ConexionBd))->getConexion();
+            $snt = $con->prepare($sql);
+            $snt->execute();
+            $arrayProvinciasTemp = $snt->fetchAll(PDO::FETCH_ASSOC);
+            // echo '<pre>';
+            // var_dump($arrayProvinciasTemp);
+            // echo '</pre>';
+            $arrayProvinciasFinal=[];
+            foreach($arrayProvinciasTemp as $index => $detalle){
+                $arrayProvinciasFinal[$detalle['id']]= $detalle['nombre'];
+            }
+            echo '<pre>';
+            var_dump($arrayProvinciasFinal);
+            echo '</pre>';
+            return $arrayProvinciasFinal;
+        }catch(PDOException $ex){
+        throw $ex;
+        }
+    }
+
+
+
+
+    // public function signUpUser(array $userdata){
+    //     $sql = 'INSERT INTO cliente (nombre, direccion, cP, eCorreo, pwd) VALUES (:nombreUsuario, :direccionUsuario, :cPUsuario, :eCorreoUsuario, :pwdUsuario)';
+    // }
     
 }

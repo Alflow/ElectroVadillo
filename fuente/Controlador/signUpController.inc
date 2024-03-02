@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../app/utilidades/sanitiza.inc';
 class SignUpController{
 
     public function signUp (){
+        $arrayProvincias = (new GestionBDRepositorio())->getProvincias();
 
         if(isset($_POST['ok'])){
             $errors= [];
@@ -39,14 +40,20 @@ class SignUpController{
 
             if($userPassword !== $userPasswordConfirm){
                 $errors['notEqualPasswords'] = 'Las contraseñas deben ser iguales';
-            }else{
-                var_dump("CONTRAEÑAS IGUALES");
             }
 
             // si no se ha producido ningún error, comenzamos la funcionalidad de registro
             if(empty($errors)){
                 var_dump("NO SE HAN APRECIADO ERRORES");
-                // (new GestionBDRepositorio)->signUpUser()
+                $dataForDB = [];
+                $dataForDB['name']= $userFullName;
+                $dataForDB['address']= $userAddress;
+                $dataForDB['cp']= $userCP;
+                $dataForDB['email']= $userMail;
+                $dataForDB['pass']=password_hash($userPassword, PASSWORD_DEFAULT); 
+                var_dump($dataForDB['pass']);
+                // (new GestionBDRepositorio())->signUpUser($dataForDB);         
+               header('location: index.php');
             }
         }
         require __DIR__ . '/../../app/plantillas/signUpView.php';
